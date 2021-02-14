@@ -1,0 +1,81 @@
+---
+title: "3.1 Regularization"
+author: "Harm Schuett"
+date: "12/10/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(patchwork)
+library(ragg)
+
+theme_set(theme_bw() +
+  theme(
+    text = element_text(size = 9),
+    panel.grid = element_blank()
+  ))
+```
+
+## Fig. 5: Laplace priors versus normal prior
+
+```{r}
+x_length <- seq(-20, 20, .25)
+
+dlap <- function(x, mu = 0, b = 1) {
+  # https://en.wikipedia.org/wiki/Laplace_distribution
+  # @mu: location parameter
+  # @b:  scale parameter (higher means wider)
+  return((1 / (2 * b)) * exp(-1 * abs(x - mu) / b))
+}
+
+lasso_priors <- data.frame(
+  x = c(x_length, x_length),
+  pdfs = c(
+    dlap(x = x_length, mu = 0, b = 1),
+    dlap(x = x_length, mu = 0, b = 4)
+  ),
+  prior = c(
+    rep.int("b = 1", length(x_length)),
+    rep.int("b = 4", length(x_length))
+  )
+)
+```
+
+
+```{r fig.height=3.5, fig.width=4, dpi=300}
+fig5 <-
+  lasso_priors %>%
+  ggplot(aes(x = x, color = prior, fill = prior)) +
+  geom_ribbon(aes(ymin = 0, ymax = pdfs), alpha = 0.7) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_fill_manual(values = c("grey30", "grey70")) +
+  scale_color_manual(values = c("grey30", "grey70")) +
+  labs(
+    y = "Density",
+    x = expression(a[1]),
+    subtitle = quote("P(" * a[1] * ") ~ Laplace(0, b)")
+  ) +
+  annotate(
+    "text",
+    x = c(-8, 8),
+    y = c(0.18, 0.18),
+    label = c("b = 1", "b = 4"),
+    size = 3
+  ) +
+  annotate(
+    "segment",
+    x = c(-8, 8), xend = c(-1, 4),
+    y = c(0.16, 0.16), yend = c(0.14, 0.03),
+    color = c("grey30", "grey70")
+  ) +
+  theme(legend.position = "none")
+
+fig5
+```
+
+```{r  fig.height=3.5, fig.width=4, dpi=600}
+agg_png("../out/figs/fig5.png", width = 4, height = 3.5, units = "in", res = 600)
+fig5
+invisible(dev.off())
+```

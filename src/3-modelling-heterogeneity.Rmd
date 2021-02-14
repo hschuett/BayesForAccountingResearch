@@ -1,0 +1,221 @@
+---
+title: "3.1 Regularization"
+author: "Harm Schuett"
+date: "12/10/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+library(patchwork)
+library(ragg)
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+theme_set(theme_bw() +
+  theme(
+    text = element_text(size = 9),
+    panel.grid = element_blank()
+  ))
+```
+
+
+## Data
+
+**NOTE:** the data is downloaded and prepped in the `00-get-data.R` script
+
+```{r}
+earn_data <- readRDS("../data/earn-data.rds")
+earn_data$firm_id <- as.integer(as.factor(earn_data$gvkey))
+glimpse(earn_data)
+```
+
+
+## OLS estimates
+
+
+```{r}
+pooled_ols <- tidy(lm(lead_roa ~ roa, earn_data))
+pooled_ols
+```
+
+
+```{r}
+ols_results <-
+  earn_data %>%
+  add_count(gvkey, name = "n_fyears") %>%
+  nest_by(firm_id, n_fyears) %>%
+  rowwise() %>%
+  mutate(fit = list(tidy(lm(lead_roa ~ roa, data)))) %>%
+  ungroup()
+
+head(ols_results)
+```
+
+```{r}
+ols_results2 <-
+  ols_results %>%
+  select(firm_id, n_fyears, fit) %>%
+  unnest(fit) %>%
+  filter(term == "roa")
+
+
+head(ols_results2, 10)
+```
+
+```{r}
+summary(ols_results2$estimate)
+```
+
+
+
+## Bayes estimates
+
+```{r}
+model_code1 <- "
+data{
+  int<lower=1> N;                   // num obs
+  int<lower=1> J;                   // num groups
+  int<lower=1> K;                   // num coefficients
+  int<lower=1, upper=J> GroupID[N]; // GroupID for obs, e.g. FirmID or Industry-YearID
+  vector[N] y;                      // Response
+  matrix[N, K] x;                   // Predictors (incl. Intercept)
+}
+parameters{
+  matrix[K, J] z;                  // standard normal sampler
+  cholesky_factor_corr[K] L_Omega; // hypprior coefficient correlation
+  vector<lower=0>[K] tau;          // hypprior coefficient scales
+  vector[K] mu_b;                  // hypprior mean coefficients
+  real<lower=0> sigma;             // error-term scale
+}
+transformed parameters{
+  matrix[J, K] b;                  // coefficient vector
+  // The multivariate non-centered version:
+  b = (rep_matrix(mu_b, J) + diag_pre_multiply(tau,L_Omega) * z)';
+}
+model{
+  to_vector(z) ~ normal(0, 1);
+  L_Omega ~ lkj_corr_cholesky(2);
+  mu_b  ~ normal(0, 2.5);
+  sigma ~ exponential(1);
+  tau ~ exponential(1);
+  y ~ normal(rows_dot_product(b[GroupID] , x), sigma);
+}
+"
+
+y <- scale(earn_data$lead_roa)
+roa <- scale(earn_data$roa)
+x <- as.matrix(data.frame(int = rep.int(1, nrow(roa)), roa = roa[, 1]))
+
+input_data <- list(
+  N = nrow(earn_data),
+  J = max(earn_data$firm_id),
+  K = 2,
+  GroupID = earn_data$firm_id,
+  y = y[, 1],
+  x = x
+)
+
+bayes_fit <- stan(
+  model_code = model_code1,
+  data = input_data,
+  iter = 4000,
+  warmup = 3000,
+  chains = 3,
+  seed = 1234
+)
+```
+
+
+```{r}
+print(bayes_fit, par = c("mu_b", "sigma", "tau"))
+```
+
+```{r}
+a_posteriors <- extract(bayes_fit, par = "b")
+
+a1_post_mean <- colMeans(a_posteriors$b[, , 2])
+a1_post_sd <- matrixStats::colSds(a_posteriors$b[, , 2])
+```
+
+
+```{r}
+summary(a1_post_mean)
+```
+
+```{r}
+summary(ols_results2$estimate)
+```
+
+
+```{r}
+graph_data <-
+  ols_results2 %>%
+  mutate(
+    post_mean = a1_post_mean,
+    post_sd = a1_post_sd
+  )
+```
+
+
+
+
+## Fig. 6: Multi-level modelling
+
+```{r  fig.height=4, fig.width=6.5, dpi=300}
+pA <-
+  graph_data %>%
+  mutate(estimate = case_when(estimate >= 5 ~ 5, estimate <= -5 ~ -5, TRUE ~ estimate)) %>%
+  ggplot(aes(x = n_fyears, y = estimate)) +
+  geom_point(alpha = 0.02, size = 0.5) + # ,  width = 0.25) +
+  scale_y_continuous(breaks = c(-5, -2.5, -1, 0, 1, 2.5, 5), limits = c(-5, 5)) +
+  geom_hline(yintercept = c(0, 1)) +
+  labs(
+    y = "OLS estimate",
+    x = NULL,
+    subtitle = "OLS by firm"
+  ) +
+  theme(legend.position = "bottom")
+
+pB <-
+  graph_data %>%
+  ggplot(aes(x = n_fyears, y = post_mean)) +
+  geom_point(alpha = 0.02, size = 0.5) + # ,  width = 0.25) +
+  scale_y_continuous(breaks = c(-5, -2.5, -1, 0, 1, 2.5, 5), limits = c(-5, 5)) +
+  geom_hline(yintercept = c(0, 1)) +
+  labs(
+    y = "Posterior mean",
+    x = NULL,
+    subtitle = "Bayesian multi-level model"
+  ) +
+  theme(legend.position = "bottom")
+
+pC <-
+  graph_data %>%
+  ggplot(aes(x = n_fyears)) +
+  geom_bar(width = 0.5) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  labs(
+    x = "Time series length",
+    y = "N. firms"
+  )
+
+
+fig6 <- pA + pB + pC + pC +
+  plot_layout(ncol = 2, heights = c(2, 0.5)) +
+  plot_annotation(tag_levels = list(c("A", "B", NULL, NULL)))
+fig6
+```
+
+
+
+
+### Saving figure
+
+```{r fig.height=4, fig.width=6.5, dpi=600}
+agg_png("../out/figs/fig6.png", width = 6.5, height = 4, units = "in", res = 600)
+fig6
+invisible(dev.off())
+```

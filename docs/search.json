@@ -1,0 +1,19 @@
+{
+  "articles": [
+    {
+      "path": "index.html",
+      "title": "Bayesian Inference for Accounting Research",
+      "description": "Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?*. I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/AccForUncertaintyCode) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.\n",
+      "author": [
+        {
+          "name": "Harm Schuett",
+          "url": "https://hschuett.github.io/"
+        }
+      ],
+      "date": "`r Sys.Date()`",
+      "contents": "\r\nThe site is organized as follows. The first part provides the annotated code to produce the output and figures used in the paper (the GitHub repo also contains the code to compute the data used). Code can be copied easily to the clipboard and be reused. The second part is still under development and contains additional material useful to those interested in Bayesian anaylsis.\r\nPaper code\r\nSection 2: Simulation contains all the code to replicate the figures and results from Section 2, which compares Classical hypothesis testing to Bayesian inference.\r\nAdditional material\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-10-03T15:06:11+02:00"
+    }
+  ],
+  "collections": []
+}

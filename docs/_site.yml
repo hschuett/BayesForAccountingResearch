@@ -1,0 +1,18 @@
+name: "docs"
+title: "Bayesian Inference for Accounting Research"
+description: |
+  Bayesian Inference for Accounting Research
+base_url: https://github.io/hschuett/AccForUncertaintyCode
+repository_url: https://github.com/hschuett/AccForUncertaintyCode
+creative_commons: CC BY
+output_dir: "."
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Paper Code"
+      menu:
+        - text: "Section 2: Simulation"
+          href: 01-classic-vs-bayes.html
+  source_url: true
+output: distill::distill_article

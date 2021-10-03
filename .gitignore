@@ -40,7 +40,7 @@ ppr/*
 ppt/*
 out/*
 lit/
-docs/
+other/
 data/*
 stan/*.exe
 R/old/*

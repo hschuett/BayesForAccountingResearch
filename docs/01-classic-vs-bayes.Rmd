@@ -1,0 +1,18 @@
+---
+title: "Simulation: Classical vs. Bayesian Regression"
+description: |
+  Code for the Section 2: Bayesian inference compared to classical inference
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r, child="../R/01-classic-vs-bayes.Rmd"}
+```

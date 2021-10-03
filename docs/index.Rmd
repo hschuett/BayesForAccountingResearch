@@ -1,7 +1,7 @@
 ---
 title: "Bayesian Inference for Accounting Research"
 description: |
-  Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?*. I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.
+  Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.
 author:
   - name: Harm Schuett
     url: https://hschuett.github.io/

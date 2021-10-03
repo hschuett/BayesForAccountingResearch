@@ -1,0 +1,3717 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>A Primer on Bayesian Inference for Accounting Research: An example of Bayesian modelling: Firm-level ERC coefficients</title>
+
+  <meta property="description" itemprop="description" content="Part one of the code for Section 3: Heterogeneity in earnings response coefficients"/>
+
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-10-03"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-10-03"/>
+  <meta name="article:author" content="Harm Schuett"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="A Primer on Bayesian Inference for Accounting Research: An example of Bayesian modelling: Firm-level ERC coefficients"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Part one of the code for Section 3: Heterogeneity in earnings response coefficients"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="A Primer on Bayesian Inference for Accounting Research"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="A Primer on Bayesian Inference for Accounting Research: An example of Bayesian modelling: Firm-level ERC coefficients"/>
+  <meta property="twitter:description" content="Part one of the code for Section 3: Heterogeneity in earnings response coefficients"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["An example of Bayesian modelling: Firm-level ERC coefficients"]},{"type":"character","attributes":{},"value":["Part one of the code for Section 3: Heterogeneity in earnings response coefficients\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Harm Schuett"]},{"type":"character","attributes":{},"value":["https://hschuett.github.io/"]},{"type":"character","attributes":{},"value":["Tilburg University"]},{"type":"character","attributes":{},"value":["https://www.tilburguniversity.edu"]}]}]},{"type":"character","attributes":{},"value":["2021-10-03"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
+
+  <script type="application/javascript">
+
+    window.headroom_prevent_pin = false;
+
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        tolerance: 5,
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  /* Theme (user-documented overrideables for nav appearance) */
+
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #0F2E3D;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .distill-site-nav a:hover {
+    color: white;
+  }
+
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+
+  .distill-site-header {
+
+  }
+
+  .distill-site-footer {
+
+  }
+
+
+  /* Site Header */
+
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+
+
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+
+  .distill-site-header .title {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .distill-site-header .logo {
+    padding: 0;
+  }
+
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+
+
+
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+
+
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  /* Site Footer */
+
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Headroom */
+
+  d-title {
+    padding-top: 6rem;
+  }
+
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+
+  .headroom--unpinned {
+    top: -100px;
+  }
+
+  .headroom--pinned {
+    top: 0;
+  }
+
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+
+  </style>
+
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+  <script type="application/javascript">
+
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+
+  function createFuseIndex() {
+
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+
+    createFuseIndex()
+      .then(function(fuse) {
+
+        // make search box visible
+        searchEl.classList.remove('hidden');
+
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  });
+
+  </script>
+
+  <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
+
+  /* Algolioa Autocomplete */
+
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  </style>
+
+
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"An example of Bayesian modelling: Firm-level ERC coefficients","description":"Part one of the code for Section 3: Heterogeneity in earnings response coefficients","authors":[{"author":"Harm Schuett","authorURL":"https://hschuett.github.io/","affiliation":"Tilburg University","affiliationURL":"https://www.tilburguniversity.edu","orcidID":""}],"publishedDate":"2021-10-03T00:00:00.000+02:00","citationText":"Schuett, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">A Primer on Bayesian Inference for Accounting Research</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Home</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Paper Code
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="classic-vs-bayes.html">Section 2: Simulation</a>
+<a href="ERC-example.html">Section 3: ERC Example</a>
+<a href="ERC-example-prior.html">Section 3: ERC Prior Check</a>
+<a href="ERC-example-cv.html">Section 3: ERC Cross-Val Test</a>
+</div>
+</div>
+<a href="https://github.com/hschuett/BayesForAccountingResearch" aria-label="Link to source">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>An example of Bayesian modelling: Firm-level ERC coefficients</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Part one of the code for Section 3: Heterogeneity in earnings response coefficients</p></p>
+</div>
+
+<div class="d-byline">
+  Harm Schuett <a href="https://hschuett.github.io/" class="uri">https://hschuett.github.io/</a> (Tilburg University)<a href="https://www.tilburguniversity.edu" class="uri">https://www.tilburguniversity.edu</a>
+  
+<br/>2021-10-03
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#introduction-and-preliminaries">1. Introduction and preliminaries</a></li>
+<li><a href="#loading-the-data">2. Loading the data</a>
+<ul>
+<li><a href="#final-transformations">2.1. Final transformations</a></li>
+<li><a href="#tab.-1-panel-a.">2.2. Tab. 1, Panel A.</a></li>
+</ul></li>
+<li><a href="#ols-estimates">3. OLS estimates</a>
+<ul>
+<li><a href="#pooled-ols-estimates">3.1 Pooled OLS estimates</a></li>
+<li><a href="#firm-level-ols-estimates">3.2 Firm-level OLS estimates</a></li>
+<li><a href="#by-year-ols-estimates">3.3 By-year OLS estimates</a></li>
+</ul></li>
+<li><a href="#bayesian-model-with-weakly-informative-priors">4. Bayesian model with weakly informative priors</a>
+<ul>
+<li><a href="#model-fitting">4.1 Model fitting</a></li>
+<li><a href="#summary-of-the-posterior-for-selected-parameters">4.2 Summary of the posterior for selected parameters</a></li>
+<li><a href="#comparing-bayesian-erc-estimates-to-ols-estimates">4.3 Comparing Bayesian ERC estimates to OLS estimates</a></li>
+<li><a href="#figure-4">4.4 Figure 4</a></li>
+</ul></li>
+<li><a href="#bayesian-model-with-ar1-time-trend">5. Bayesian model with AR1 time trend</a>
+<ul>
+<li><a href="#model-fitting-1">5.1 Model fitting</a></li>
+<li><a href="#summary-of-the-posterior-for-selected-parameters-1">5.2 Summary of the posterior for selected parameters</a></li>
+<li><a href="#comparing-bayesian-erc-estimates-to-ols-estimates-1">5.3 Comparing Bayesian ERC estimates to OLS estimates</a></li>
+<li><a href="#fig.-5">5.4 Fig. 5</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mc-stan.org/cmdstanr'>cmdstanr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mc-stan.org/posterior/'>posterior</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/source.html'>source</a></span><span class='op'>(</span><span class='st'>"00-utils.R"</span><span class='op'>)</span>
+<span class='va'>kable</span> <span class='op'>&lt;-</span> <span class='fu'>knitr</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_prodgray</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>ols_erc</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.d</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>ret_dm</span> <span class='op'>~</span> <span class='va'>earn_surp_dm</span>, data <span class='op'>=</span> <span class='va'>.d</span><span class='op'>)</span>
+  <span class='va'>fit_results</span> <span class='op'>&lt;-</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>ols_pred</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.d</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>ret_dm</span> <span class='op'>~</span> <span class='va'>earn_surp_dm</span>, data <span class='op'>=</span> <span class='va'>.d</span><span class='op'>)</span>
+  <span class='va'>fit_pred</span> <span class='op'>&lt;-</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/augment.html'>augment</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<h2 id="introduction-and-preliminaries">1. Introduction and preliminaries</h2>
+<p>This markdown file contains all the code necessary to replicate the main figures, models and results used in Section 3: <em>Heterogeneity in earnings response coefficients</em> of the Paper <em>What Can Bayesian Inference Do for Accounting Research?</em>. The prior predictive checks and the cross-validation test are on separate pages. All the code can also be found in the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>. It contains <code>00-utils.R</code> which contains a few helper functions for graphs and tables.</p>
+<p><strong>Note:</strong> I used the newer <a href="https://mc-stan.org/cmdstanr/">cmdstanr</a> package instead of the older <a href="https://mc-stan.org/rstan/">rstan</a> package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the <a href="https://pystan.readthedocs.io/en/latest/">pystan</a> package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python. Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr <a href="https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html">doc</a> for installation instructions</p>
+<h2 id="loading-the-data">2. Loading the data</h2>
+<h3 id="final-transformations">2.1. Final transformations</h3>
+<p>The data used here is generated via the <code>02-create-ERC-sample.R</code> script found in the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>. Here, we just load it and do some last minute transformations like de-meaning, etc.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ea_data</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"../data/ea-event-returns.pqt"</span><span class='op'>)</span> 
+<span class='va'>ea_data</span> <span class='op'>&lt;-</span> 
+  <span class='va'>ea_data</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    ret_dm <span class='op'>=</span> <span class='va'>AbEvRet</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>AbEvRet</span><span class='op'>)</span>,
+    earn_surp_dm <span class='op'>=</span> <span class='va'>earn_surp</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>earn_surp</span><span class='op'>)</span>
+    <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 3%" />
+<col style="width: 6%" />
+<col style="width: 8%" />
+<col style="width: 6%" />
+<col style="width: 4%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ticker</th>
+<th style="text-align: right;">permno</th>
+<th style="text-align: left;">fpend_date</th>
+<th style="text-align: left;">ea_date</th>
+<th style="text-align: right;">actual_eps</th>
+<th style="text-align: right;">median_fcast_eps</th>
+<th style="text-align: right;">num_forecasts</th>
+<th style="text-align: left;">two_days_bef_ea</th>
+<th style="text-align: right;">Price</th>
+<th style="text-align: right;">earn_surp</th>
+<th style="text-align: left;">ea_match_date</th>
+<th style="text-align: right;">AbEvRet</th>
+<th style="text-align: right;">firm_id</th>
+<th style="text-align: right;">ret_dm</th>
+<th style="text-align: right;">earn_surp_dm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">001N</td>
+<td style="text-align: right;">14504</td>
+<td style="text-align: left;">2014-12-31</td>
+<td style="text-align: left;">2015-02-09</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">2015-02-05</td>
+<td style="text-align: right;">14.49</td>
+<td style="text-align: right;">0.0006901</td>
+<td style="text-align: left;">2015-02-09</td>
+<td style="text-align: right;">-0.2428478</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-0.2472159</td>
+<td style="text-align: right;">0.0006950</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">001N</td>
+<td style="text-align: right;">14504</td>
+<td style="text-align: left;">2015-03-31</td>
+<td style="text-align: left;">2015-05-05</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">-0.045</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">2015-05-01</td>
+<td style="text-align: right;">12.42</td>
+<td style="text-align: right;">0.0084541</td>
+<td style="text-align: left;">2015-05-05</td>
+<td style="text-align: right;">-0.0452097</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-0.0495779</td>
+<td style="text-align: right;">0.0084589</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">001N</td>
+<td style="text-align: right;">14504</td>
+<td style="text-align: left;">2015-06-30</td>
+<td style="text-align: left;">2015-08-05</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">-0.015</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">2015-08-03</td>
+<td style="text-align: right;">9.25</td>
+<td style="text-align: right;">0.0037838</td>
+<td style="text-align: left;">2015-08-05</td>
+<td style="text-align: right;">0.0469699</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0426018</td>
+<td style="text-align: right;">0.0037886</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">001N</td>
+<td style="text-align: right;">14504</td>
+<td style="text-align: left;">2015-09-30</td>
+<td style="text-align: left;">2015-11-04</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">2015-11-02</td>
+<td style="text-align: right;">5.82</td>
+<td style="text-align: right;">-0.0103093</td>
+<td style="text-align: left;">2015-11-04</td>
+<td style="text-align: right;">0.0769411</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0725729</td>
+<td style="text-align: right;">-0.0103044</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">002T</td>
+<td style="text-align: right;">14503</td>
+<td style="text-align: left;">2014-06-30</td>
+<td style="text-align: left;">2014-08-07</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">2014-08-05</td>
+<td style="text-align: right;">33.33</td>
+<td style="text-align: right;">-0.0013501</td>
+<td style="text-align: left;">2014-08-07</td>
+<td style="text-align: right;">-0.0166244</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-0.0209926</td>
+<td style="text-align: right;">-0.0013453</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">002T</td>
+<td style="text-align: right;">14503</td>
+<td style="text-align: left;">2014-09-30</td>
+<td style="text-align: left;">2014-11-04</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.340</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">2014-10-31</td>
+<td style="text-align: right;">30.43</td>
+<td style="text-align: right;">-0.0052580</td>
+<td style="text-align: left;">2014-11-04</td>
+<td style="text-align: right;">-0.0211484</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-0.0255165</td>
+<td style="text-align: right;">-0.0052531</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ea_data_time</span> <span class='op'>&lt;-</span> 
+  <span class='va'>ea_data</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>EAYear <span class='op'>=</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span><span class='op'>(</span><span class='va'>ea_date</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>year_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>EAYear</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>EAYear</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="tab.-1-panel-a.">2.2. Tab. 1, Panel A.</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>desc_tabl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
+  <span class='fu'>desc_row</span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>$</span><span class='va'>AbEvRet</span>, <span class='st'>"Ret"</span><span class='op'>)</span>,
+  <span class='fu'>desc_row</span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>$</span><span class='va'>earn_surp</span>, <span class='st'>"X"</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>desc_tabl</span><span class='op'>$</span><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>)</span>
+<span class='va'>desc_tabl</span><span class='op'>$</span><span class='va'>Firms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>$</span><span class='va'>firm_id</span><span class='op'>)</span>
+
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>desc_tabl</span>, <span class='st'>"../out/results/tab1-panA.csv"</span><span class='op'>)</span>
+
+<span class='va'>desc_tabl</span>|&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q25</th>
+<th style="text-align: right;">q50</th>
+<th style="text-align: right;">q75</th>
+<th style="text-align: right;">q95</th>
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">Firms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">Ret</td>
+<td style="text-align: right;">0.0044</td>
+<td style="text-align: right;">0.0779</td>
+<td style="text-align: right;">-0.1252</td>
+<td style="text-align: right;">-0.0394</td>
+<td style="text-align: right;">0.0027</td>
+<td style="text-align: right;">0.0470</td>
+<td style="text-align: right;">0.1392</td>
+<td style="text-align: right;">67360</td>
+<td style="text-align: right;">2966</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5%1</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0044</td>
+<td style="text-align: right;">-0.0075</td>
+<td style="text-align: right;">-0.0005</td>
+<td style="text-align: right;">0.0003</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">0.0056</td>
+<td style="text-align: right;">67360</td>
+<td style="text-align: right;">2966</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="ols-estimates">3. OLS estimates</h2>
+<h3 id="pooled-ols-estimates">3.1 Pooled OLS estimates</h3>
+<p>Just to have a frame of reference, here is the pooled ERC estimate</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>pooled</span> <span class='op'>&lt;-</span> <span class='fu'>ols_erc</span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>)</span>
+<span class='fu'>kable</span><span class='op'>(</span><span class='va'>pooled</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.000000</td>
+<td style="text-align: right;">0.0002955</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">earn_surp_dm</td>
+<td style="text-align: right;">3.116373</td>
+<td style="text-align: right;">0.0665200</td>
+<td style="text-align: right;">46.84867</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="firm-level-ols-estimates">3.2 Firm-level OLS estimates</h3>
+<p>Next, we nest the data by firm (ticker) and fit OLS ERC models by firm</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nested_data</span> <span class='op'>&lt;-</span>
+  <span class='va'>ea_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_count</span><span class='op'>(</span><span class='va'>ticker</span>, name <span class='op'>=</span> <span class='st'>"n_EAs"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>n_EAs</span>, <span class='va'>firm_id</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>ols_result <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span>.x <span class='op'>=</span> <span class='va'>data</span>, .f <span class='op'>=</span> <span class='op'>~</span><span class='fu'>ols_erc</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://mc-stan.org/cmdstanr/reference/fit-method-summary.html'>summary</a></span><span class='op'>(</span><span class='va'>nested_data</span><span class='op'>$</span><span class='va'>n_EAs</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00    4.00   13.00   22.71   33.00  122.00 </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ols_results</span> <span class='op'>&lt;-</span>
+  <span class='va'>nested_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>n_EAs</span>, <span class='va'>ols_result</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>ols_result</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span> <span class='op'>==</span> <span class='st'>"earn_surp_dm"</span><span class='op'>)</span>
+
+<span class='va'>ols_intercept</span> <span class='op'>&lt;-</span>
+  <span class='va'>nested_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>n_EAs</span>, <span class='va'>ols_result</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>ols_result</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span> <span class='op'>==</span> <span class='st'>"(Intercept)"</span><span class='op'>)</span>
+
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>ols_results</span>, <span class='st'>"../out/results/ols_bi.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>This is the distribution of firm-level ERC estimates</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://mc-stan.org/cmdstanr/reference/fit-method-summary.html'>summary</a></span><span class='op'>(</span><span class='va'>ols_results</span><span class='op'>$</span><span class='va'>estimate</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA&#39;s 
+-5034.136     0.068     3.884     6.041    10.650  5462.750       294 </code></pre>
+</div>
+<h3 id="by-year-ols-estimates">3.3 By-year OLS estimates</h3>
+<p>This is for the comparison in Figure 5.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>byyear_data</span> <span class='op'>&lt;-</span>
+  <span class='va'>ea_data_time</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>year_id</span>, <span class='va'>EAYear</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>ols_result <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span>.x <span class='op'>=</span> <span class='va'>data</span>, .f <span class='op'>=</span> <span class='op'>~</span><span class='fu'>ols_erc</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>byyear_results</span> <span class='op'>&lt;-</span>
+  <span class='va'>byyear_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>ols_result</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span> <span class='op'>==</span> <span class='st'>"earn_surp_dm"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="bayesian-model-with-weakly-informative-priors">4. Bayesian model with weakly informative priors</h2>
+<h3 id="model-fitting">4.1 Model fitting</h3>
+<p>To fit a Bayesian model I use <a href="https://mc-stan.org/">Stan</a>, or, more precisely, its R bindings in cmdstanr. To fit a Bayesian model, we need to:</p>
+<ol type="1">
+<li>Write the corresponding model using the Stan language</li>
+<li>Compile the code into a Stan model executable (an .exe file)</li>
+<li>Make a list of data to feed into the .exe file</li>
+<li>Let the model run and generate MCMC chains (or whatever algorithm is specified)</li>
+</ol>
+<p>The model itself is coded in the <a href="https://mc-stan.org/">Stan language</a>. There are many excellent tutorials on Stan available online. So I won’t waste space explaining it here. For various reasons (e.g., debugging) it is customary to put the model code in a separate .stan file. All the model files can be found in the /Stan/ folder of the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>read_lines</span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors.stan"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>data{
+  int&lt;lower=1&gt; N;                   // num obs
+  int&lt;lower=1&gt; J;                   // num groups
+  int&lt;lower=1&gt; K;                   // num coefficients
+  int&lt;lower=1, upper=J&gt; GroupID[N]; // GroupID for obs, e.g. FirmID or Industry-YearID
+  vector[N] y;                      // Response
+  matrix[N, K] x;                   // Predictors (incl. Intercept)
+}
+parameters{
+  matrix[K, J] z;                  // standard normal sampler
+  cholesky_factor_corr[K] L_Omega; // hypprior coefficient correlation
+  vector&lt;lower=0&gt;[K] tau;          // hypprior coefficient scales
+  vector[K] mu_b;                  // hypprior mean coefficients
+  real&lt;lower=0&gt; sigma;             // error-term scale
+}
+transformed parameters{
+  matrix[J, K] b;                  // coefficient vector
+  // The multivariate non-centered version:
+  b = (rep_matrix(mu_b, J) + diag_pre_multiply(tau,L_Omega) * z)&#39;;
+}
+model{
+  to_vector(z) ~ normal(0, 1);
+  L_Omega ~ lkj_corr_cholesky(2);
+  mu_b[1]  ~ normal(0, 0.1);
+  mu_b[2]  ~ normal(0, 40);
+  sigma ~ exponential(1.0 / 0.08);   // exp: 0.08 (std (abnormal returns))
+  tau[1] ~ exponential(1.0 / 0.1);   // exp: 0.1
+  tau[2] ~ exponential(1.0 / 40);    // exp: 40
+  y ~ normal(rows_dot_product(b[GroupID] , x), sigma);
+}
+// generated quantities {
+//   array[N] real y_pred = normal_rng(rows_dot_product(b[GroupID] , x), sigma);
+// }</code></pre>
+</div>
+<aside>
+<p>The model code in Stan language</p>
+</aside>
+<p>Next, we compile the model to an .exe file</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model_wkinfo_priors</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/cmdstanr/reference/cmdstan_model.html'>cmdstan_model</a></span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors.stan"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Now, we prepare the list of data to feed into the model.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>input_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  N <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>)</span>,
+  J <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>$</span><span class='va'>firm_id</span><span class='op'>)</span>,
+  K <span class='op'>=</span> <span class='fl'>2</span>,
+  GroupID <span class='op'>=</span> <span class='va'>ea_data</span><span class='op'>$</span><span class='va'>firm_id</span>,
+  y <span class='op'>=</span> <span class='va'>ea_data</span><span class='op'>$</span><span class='va'>AbEvRet</span>,
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>int <span class='op'>=</span> <span class='fl'>1</span>, esurp <span class='op'>=</span> <span class='va'>ea_data</span><span class='op'>$</span><span class='va'>earn_surp</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<aside>
+<p>Note how the list matches the names of the variables declared in the model’s data block</p>
+</aside>
+<p>We run the model</p>
+<p><strong>Beware, this fit can take a long time</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_wkinfo_priors</span> <span class='op'>&lt;-</span> <span class='va'>model_wkinfo_priors</span><span class='op'>$</span><span class='fu'>sample</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>input_data</span>,
+  iter_sampling <span class='op'>=</span> <span class='fl'>1000</span>,
+  iter_warmup <span class='op'>=</span> <span class='fl'>1000</span>,
+  chains <span class='op'>=</span> <span class='fl'>4</span>,
+  parallel_chains <span class='op'>=</span> <span class='fl'>4</span>,
+  seed <span class='op'>=</span> <span class='fl'>1234</span>,
+  refresh <span class='op'>=</span> <span class='fl'>1000</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1941.6 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1962.7 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 2088.8 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 2132.0 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 2031.3 seconds.
+Total execution time: 2132.6 seconds.</code></pre>
+</div>
+<h3 id="summary-of-the-posterior-for-selected-parameters">4.2 Summary of the posterior for selected parameters</h3>
+<p>Here is the summary of the resulting posterior distribution of the model parameters</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_wkinfo_priors</span><span class='op'>$</span><span class='fu'>summary</span><span class='op'>(</span>variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mu_b"</span>, <span class='st'>"sigma"</span>, <span class='st'>"tau"</span>, <span class='st'>"L_Omega[2,1]"</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">mad</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q95</th>
+<th style="text-align: right;">rhat</th>
+<th style="text-align: right;">ess_bulk</th>
+<th style="text-align: right;">ess_tail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mu_b[1]</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">3943.605</td>
+<td style="text-align: right;">3333.804</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mu_b[2]</td>
+<td style="text-align: right;">3.669</td>
+<td style="text-align: right;">3.668</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">3.490</td>
+<td style="text-align: right;">3.850</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">2575.785</td>
+<td style="text-align: right;">2404.202</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sigma</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">1.003</td>
+<td style="text-align: right;">4585.697</td>
+<td style="text-align: right;">2582.434</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tau[1]</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1037.872</td>
+<td style="text-align: right;">2015.912</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tau[2]</td>
+<td style="text-align: right;">2.804</td>
+<td style="text-align: right;">2.802</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">2.600</td>
+<td style="text-align: right;">3.008</td>
+<td style="text-align: right;">1.002</td>
+<td style="text-align: right;">1347.643</td>
+<td style="text-align: right;">2243.416</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">L_Omega[2,1]</td>
+<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">-0.024</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">-0.161</td>
+<td style="text-align: right;">0.130</td>
+<td style="text-align: right;">1.011</td>
+<td style="text-align: right;">276.749</td>
+<td style="text-align: right;">683.598</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab1.D</span> <span class='op'>&lt;-</span> <span class='va'>fit_wkinfo_priors</span><span class='op'>$</span><span class='fu'>summary</span><span class='op'>(</span>
+  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mu_b"</span>, <span class='st'>"sigma"</span>, <span class='st'>"tau"</span>, <span class='st'>"L_Omega[2,1]"</span><span class='op'>)</span>, 
+  <span class='va'>mean</span>, <span class='va'>sd</span>, <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>tab1.D</span>, <span class='st'>"../out/results/tab1-panD.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="comparing-bayesian-erc-estimates-to-ols-estimates">4.3 Comparing Bayesian ERC estimates to OLS estimates</h3>
+<p>To do this we need to extract the posterior draws for the ERC coefficients</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>posterior_b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/posterior/reference/draws_summary.html'>summarise_draws</a></span><span class='op'>(</span><span class='va'>fit_wkinfo_priors</span><span class='op'>$</span><span class='fu'>draws</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span>, 
+                               posterior_mean <span class='op'>=</span> <span class='va'>mean</span>, 
+                               posterior_sd <span class='op'>=</span> <span class='va'>sd</span>,
+                               <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+                               <span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>posterior_b</span>, <span class='st'>"../out/results/fit_wkinfo_bi.csv"</span><span class='op'>)</span>
+
+<span class='va'>posterior_erc</span> <span class='op'>&lt;-</span> 
+  <span class='va'>posterior_b</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>variable</span>, <span class='st'>",2\\]"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Code for Tab. 1, Panel C</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab1.C</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='va'>posterior_erc</span><span class='op'>$</span><span class='va'>posterior_mean</span>, <span class='st'>"post_mean"</span><span class='op'>)</span>,
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>posterior_erc</span>, <span class='va'>q95</span> <span class='op'>-</span> <span class='va'>q5</span><span class='op'>)</span>, <span class='st'>"post90_width"</span><span class='op'>)</span>,
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>ols_results</span>, <span class='va'>estimate</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>estimate</span><span class='op'>)</span> <span class='op'>==</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>, <span class='st'>"OLS"</span><span class='op'>)</span>,
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>ols_results</span>, <span class='va'>p.value</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>p.value</span><span class='op'>)</span> <span class='op'>==</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>, <span class='st'>"OLS pval"</span><span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>tab1.C</span>, <span class='st'>"../out/results/tab1-panC.csv"</span><span class='op'>)</span>
+<span class='va'>tab1.C</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>             var  mean      sd      q5   q25   q50    q75    q95
+5%     post_mean 3.672   1.414   1.292 2.970 3.676  4.288  6.105
+5%1 post90_width 7.837   1.440   4.946 6.933 8.314  9.013  9.345
+5%2          OLS 6.041 178.593 -18.689 0.068 3.884 10.650 45.904
+5%3     OLS pval 0.362   0.309   0.002 0.068 0.301  0.611  0.927</code></pre>
+</div>
+<h3 id="figure-4">4.4 Figure 4</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>graph_data</span> <span class='op'>&lt;-</span>
+  <span class='va'>ols_results</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    post_mean <span class='op'>=</span> <span class='va'>posterior_erc</span><span class='op'>$</span><span class='va'>posterior_mean</span>,
+    post_sd <span class='op'>=</span> <span class='va'>posterior_erc</span><span class='op'>$</span><span class='va'>posterior_sd</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>y_range</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>100</span>, <span class='fl'>100</span><span class='op'>)</span>
+
+<span class='va'>f4.panA</span> <span class='op'>&lt;-</span>
+  <span class='va'>graph_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>n_EAs</span>, y <span class='op'>=</span> <span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.1</span>, size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># ,  width = 0.25) +</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>graph_data</span><span class='op'>$</span><span class='va'>estimate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    y <span class='op'>=</span> <span class='st'>"OLS estimate"</span>,
+    x <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='co'># "Nr of Quarters in firm's time series",</span>
+    subtitle <span class='op'>=</span> <span class='st'>"OLS by firm"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>coord_cartesian</span><span class='op'>(</span>ylim <span class='op'>=</span> <span class='va'>y_range</span><span class='op'>)</span>
+
+<span class='va'>f4.panB</span> <span class='op'>&lt;-</span>
+  <span class='va'>graph_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>n_EAs</span>, y <span class='op'>=</span> <span class='va'>post_mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.1</span>, size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'># ,  width = 0.25) +</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>graph_data</span><span class='op'>$</span><span class='va'>post_mean</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    y <span class='op'>=</span> <span class='st'>"Posterior mean"</span>,
+    x <span class='op'>=</span> <span class='cn'>NULL</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Bayesian multi-level model"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>coord_cartesian</span><span class='op'>(</span>ylim <span class='op'>=</span> <span class='va'>y_range</span><span class='op'>)</span>
+  
+
+<span class='va'>f4.panC</span> <span class='op'>&lt;-</span>
+  <span class='va'>graph_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>n_EAs</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_bar</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>expand <span class='op'>=</span> <span class='fu'>expansion</span><span class='op'>(</span>mult <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.05</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Time series length"</span>,
+    y <span class='op'>=</span> <span class='st'>"N. firms"</span>
+  <span class='op'>)</span>
+
+<span class='va'>fig4</span> <span class='op'>&lt;-</span> 
+  <span class='va'>f4.panA</span> <span class='op'>+</span> <span class='va'>f4.panB</span> <span class='op'>+</span> <span class='va'>f4.panC</span> <span class='op'>+</span> <span class='va'>f4.panC</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>plot_layout</a></span><span class='op'>(</span>ncol <span class='op'>=</span> <span class='fl'>2</span>, heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>tag_levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='cn'>NULL</span>, <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&amp;</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+<span class='va'>fig4</span>
+</code></pre>
+</div>
+<p><img src="ERC-example_files/figure-html5/fig4-1.png" width="624" /></p>
+</div>
+<p>Saving figure</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>save_fig</span><span class='op'>(</span><span class='va'>fig4</span>, figname <span class='op'>=</span> <span class='st'>"fig4"</span>, w <span class='op'>=</span> <span class='fl'>6.2</span>, h <span class='op'>=</span> <span class='fl'>3.4</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="bayesian-model-with-ar1-time-trend">5. Bayesian model with AR1 time trend</h2>
+<h3 id="model-fitting-1">5.1 Model fitting</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>read_lines</span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors-time-pers.stan"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>data{
+  int&lt;lower=1&gt; N;                   // num obs
+  int&lt;lower=1&gt; J;                   // num groups
+  int&lt;lower=1&gt; K;                   // num coefficients
+  int&lt;lower=1&gt; M;                   // num periods
+  int&lt;lower=1, upper=J&gt; GroupID[N]; // GroupID for obs, e.g. FirmID or Industry-YearID
+  int&lt;lower=1, upper=M&gt; TimeID[N];  // GroupID for obs, e.g. FirmID or Industry-YearID
+  vector[N] y;                      // Response
+  vector[N] x;                      // Predictor (without Intercept)
+}
+parameters{
+  matrix[K, J] z;                  // standard normal sampler
+  cholesky_factor_corr[K] L_Omega; // hypprior coefficient correlation
+  vector&lt;lower=0&gt;[K] tau;          // hypprior coefficient scales
+  real&lt;lower=0&gt; sigma;             // error-term scale
+  real mu_0;
+
+  real&lt;lower=0,upper=1&gt; rho_raw;   // used to construct rho, the AR(1) coefficient
+  real&lt;lower=0&gt; sig_t;             // error-term scale
+  vector[M] z_t;
+}
+transformed parameters{
+  matrix[J, K] b_i;                // firm-level components
+  vector[K] mu_b;                  // hypprior mean firm-level coefficients
+  // The multivariate non-centered version:
+  mu_b[1] = mu_0;
+  mu_b[2] = 0;
+  b_i = (rep_matrix(mu_b, J) + diag_pre_multiply(tau,L_Omega) * z)&#39;;
+
+  // non-centered parameterization of AR(1) process priors
+  real rho = 2 * rho_raw - 1;      // ensures that rho is between -1 and 1
+  vector[M] b_t = sig_t * z_t;     // all of them share this term
+  b_t[1] /= sqrt(1 - rho^2);       // mo[1] = mo[1] / sqrt(1 - rho^2)
+  for (m in 2:M) {
+    b_t[m] += rho * b_t[m-1];      // mo[m] = mo[m] + rho * mo[m-1];
+  }
+
+}
+model{
+  to_vector(z) ~ normal(0, 1);
+  z_t ~ normal(0, 1);
+  L_Omega ~ lkj_corr_cholesky(2);
+  mu_0  ~ normal(0, 0.1);
+  rho_raw  ~ beta(10, 5);
+
+  sigma ~ exponential(1.0 / 0.08);   // exp: 0.08 (std (abnormal returns))
+  tau[1] ~ exponential(1.0 / 0.1);   // exp: 0.1
+  tau[2] ~ exponential(1.0 / 40);    // exp: 40
+  sig_t ~ exponential(1.0 / 40);     // exp: 40
+
+  vector[N] n_loc = b_i[GroupID, 1] + (b_t[TimeID] + b_i[GroupID, 2]) .* x;
+
+  y ~ normal(n_loc, sigma);
+}</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>input_data2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  N <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ea_data_time</span><span class='op'>)</span>,
+  J <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>ea_data_time</span><span class='op'>$</span><span class='va'>firm_id</span><span class='op'>)</span>,
+  K <span class='op'>=</span> <span class='fl'>2</span>,
+  M <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>ea_data_time</span><span class='op'>$</span><span class='va'>year_id</span><span class='op'>)</span>,
+  TimeID <span class='op'>=</span> <span class='va'>ea_data_time</span><span class='op'>$</span><span class='va'>year_id</span>, 
+  GroupID <span class='op'>=</span> <span class='va'>ea_data_time</span><span class='op'>$</span><span class='va'>firm_id</span>,
+  y <span class='op'>=</span> <span class='va'>ea_data</span><span class='op'>$</span><span class='va'>AbEvRet</span>,
+  x <span class='op'>=</span> <span class='va'>ea_data</span><span class='op'>$</span><span class='va'>earn_surp</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model_wkinfo_timepers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/cmdstanr/reference/cmdstan_model.html'>cmdstan_model</a></span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors-time-pers.stan"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>Again beware, this fit can take a long time</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_wkinfo_timepers</span> <span class='op'>&lt;-</span> <span class='va'>model_wkinfo_timepers</span><span class='op'>$</span><span class='fu'>sample</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>input_data2</span>,
+  iter_sampling <span class='op'>=</span> <span class='fl'>1000</span>,
+  iter_warmup <span class='op'>=</span> <span class='fl'>1000</span>,
+  chains <span class='op'>=</span> <span class='fl'>4</span>,
+  parallel_chains <span class='op'>=</span> <span class='fl'>4</span>,
+  seed <span class='op'>=</span> <span class='fl'>1234</span>,
+  refresh <span class='op'>=</span> <span class='fl'>1000</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Running MCMC with 4 parallel chains...
+
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 2301.3 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 2386.3 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 2400.0 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 2537.5 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 2406.3 seconds.
+Total execution time: 2538.0 seconds.</code></pre>
+</div>
+<h3 id="summary-of-the-posterior-for-selected-parameters-1">5.2 Summary of the posterior for selected parameters</h3>
+<p>Here is the summary of the resulting posterior distribution of the model parameters</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_wkinfo_timepers</span><span class='op'>$</span><span class='fu'>summary</span><span class='op'>(</span>variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mu_b[1]"</span>, <span class='st'>"sigma"</span>, <span class='st'>"tau"</span>, <span class='st'>"b_t"</span>, 
+                                          <span class='st'>"rho"</span>, <span class='st'>"sig_t"</span>, <span class='st'>"L_Omega[2,1]"</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">mad</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q95</th>
+<th style="text-align: right;">rhat</th>
+<th style="text-align: right;">ess_bulk</th>
+<th style="text-align: right;">ess_tail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mu_b[1]</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">1.004</td>
+<td style="text-align: right;">4608.601</td>
+<td style="text-align: right;">3102.494</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sigma</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">3703.130</td>
+<td style="text-align: right;">2184.654</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tau[1]</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">1072.303</td>
+<td style="text-align: right;">1881.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tau[2]</td>
+<td style="text-align: right;">2.615</td>
+<td style="text-align: right;">2.612</td>
+<td style="text-align: right;">0.122</td>
+<td style="text-align: right;">0.118</td>
+<td style="text-align: right;">2.419</td>
+<td style="text-align: right;">2.821</td>
+<td style="text-align: right;">1.005</td>
+<td style="text-align: right;">1547.561</td>
+<td style="text-align: right;">2254.383</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[1]</td>
+<td style="text-align: right;">1.798</td>
+<td style="text-align: right;">1.794</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">1.254</td>
+<td style="text-align: right;">2.349</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">6564.086</td>
+<td style="text-align: right;">3714.573</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[2]</td>
+<td style="text-align: right;">1.699</td>
+<td style="text-align: right;">1.701</td>
+<td style="text-align: right;">0.310</td>
+<td style="text-align: right;">0.319</td>
+<td style="text-align: right;">1.183</td>
+<td style="text-align: right;">2.198</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5728.963</td>
+<td style="text-align: right;">3821.598</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[3]</td>
+<td style="text-align: right;">1.967</td>
+<td style="text-align: right;">1.971</td>
+<td style="text-align: right;">0.299</td>
+<td style="text-align: right;">0.298</td>
+<td style="text-align: right;">1.491</td>
+<td style="text-align: right;">2.462</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">6325.139</td>
+<td style="text-align: right;">3566.423</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[4]</td>
+<td style="text-align: right;">2.302</td>
+<td style="text-align: right;">2.300</td>
+<td style="text-align: right;">0.319</td>
+<td style="text-align: right;">0.318</td>
+<td style="text-align: right;">1.783</td>
+<td style="text-align: right;">2.843</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">5648.104</td>
+<td style="text-align: right;">3809.811</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[5]</td>
+<td style="text-align: right;">2.479</td>
+<td style="text-align: right;">2.488</td>
+<td style="text-align: right;">0.353</td>
+<td style="text-align: right;">0.344</td>
+<td style="text-align: right;">1.891</td>
+<td style="text-align: right;">3.061</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">6555.830</td>
+<td style="text-align: right;">3578.803</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[6]</td>
+<td style="text-align: right;">1.969</td>
+<td style="text-align: right;">1.971</td>
+<td style="text-align: right;">0.326</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: right;">1.424</td>
+<td style="text-align: right;">2.495</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5906.941</td>
+<td style="text-align: right;">3710.413</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[7]</td>
+<td style="text-align: right;">2.581</td>
+<td style="text-align: right;">2.577</td>
+<td style="text-align: right;">0.341</td>
+<td style="text-align: right;">0.330</td>
+<td style="text-align: right;">2.021</td>
+<td style="text-align: right;">3.159</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5834.040</td>
+<td style="text-align: right;">3507.401</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[8]</td>
+<td style="text-align: right;">3.065</td>
+<td style="text-align: right;">3.070</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">0.356</td>
+<td style="text-align: right;">2.490</td>
+<td style="text-align: right;">3.641</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">5946.883</td>
+<td style="text-align: right;">3773.475</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[9]</td>
+<td style="text-align: right;">3.043</td>
+<td style="text-align: right;">3.039</td>
+<td style="text-align: right;">0.346</td>
+<td style="text-align: right;">0.336</td>
+<td style="text-align: right;">2.482</td>
+<td style="text-align: right;">3.622</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">6807.729</td>
+<td style="text-align: right;">2933.874</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[10]</td>
+<td style="text-align: right;">2.824</td>
+<td style="text-align: right;">2.826</td>
+<td style="text-align: right;">0.348</td>
+<td style="text-align: right;">0.348</td>
+<td style="text-align: right;">2.242</td>
+<td style="text-align: right;">3.382</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">6918.646</td>
+<td style="text-align: right;">3719.018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[11]</td>
+<td style="text-align: right;">3.135</td>
+<td style="text-align: right;">3.140</td>
+<td style="text-align: right;">0.384</td>
+<td style="text-align: right;">0.381</td>
+<td style="text-align: right;">2.503</td>
+<td style="text-align: right;">3.762</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">7432.118</td>
+<td style="text-align: right;">3579.078</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[12]</td>
+<td style="text-align: right;">3.175</td>
+<td style="text-align: right;">3.176</td>
+<td style="text-align: right;">0.383</td>
+<td style="text-align: right;">0.392</td>
+<td style="text-align: right;">2.540</td>
+<td style="text-align: right;">3.799</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">6264.057</td>
+<td style="text-align: right;">3811.178</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[13]</td>
+<td style="text-align: right;">3.523</td>
+<td style="text-align: right;">3.525</td>
+<td style="text-align: right;">0.368</td>
+<td style="text-align: right;">0.370</td>
+<td style="text-align: right;">2.914</td>
+<td style="text-align: right;">4.133</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">6556.955</td>
+<td style="text-align: right;">3728.211</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[14]</td>
+<td style="text-align: right;">3.838</td>
+<td style="text-align: right;">3.837</td>
+<td style="text-align: right;">0.398</td>
+<td style="text-align: right;">0.398</td>
+<td style="text-align: right;">3.180</td>
+<td style="text-align: right;">4.476</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">6121.546</td>
+<td style="text-align: right;">3726.720</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[15]</td>
+<td style="text-align: right;">4.461</td>
+<td style="text-align: right;">4.459</td>
+<td style="text-align: right;">0.409</td>
+<td style="text-align: right;">0.406</td>
+<td style="text-align: right;">3.788</td>
+<td style="text-align: right;">5.148</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">6665.553</td>
+<td style="text-align: right;">3867.688</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[16]</td>
+<td style="text-align: right;">5.957</td>
+<td style="text-align: right;">5.956</td>
+<td style="text-align: right;">0.403</td>
+<td style="text-align: right;">0.402</td>
+<td style="text-align: right;">5.299</td>
+<td style="text-align: right;">6.633</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5896.254</td>
+<td style="text-align: right;">3454.660</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[17]</td>
+<td style="text-align: right;">5.868</td>
+<td style="text-align: right;">5.873</td>
+<td style="text-align: right;">0.382</td>
+<td style="text-align: right;">0.391</td>
+<td style="text-align: right;">5.255</td>
+<td style="text-align: right;">6.487</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5911.323</td>
+<td style="text-align: right;">3872.781</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[18]</td>
+<td style="text-align: right;">6.461</td>
+<td style="text-align: right;">6.453</td>
+<td style="text-align: right;">0.394</td>
+<td style="text-align: right;">0.397</td>
+<td style="text-align: right;">5.827</td>
+<td style="text-align: right;">7.104</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">5171.089</td>
+<td style="text-align: right;">3228.712</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[19]</td>
+<td style="text-align: right;">4.977</td>
+<td style="text-align: right;">4.976</td>
+<td style="text-align: right;">0.311</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">4.472</td>
+<td style="text-align: right;">5.495</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5879.135</td>
+<td style="text-align: right;">3677.540</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[20]</td>
+<td style="text-align: right;">4.169</td>
+<td style="text-align: right;">4.168</td>
+<td style="text-align: right;">0.265</td>
+<td style="text-align: right;">0.265</td>
+<td style="text-align: right;">3.724</td>
+<td style="text-align: right;">4.605</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5316.392</td>
+<td style="text-align: right;">3666.933</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[21]</td>
+<td style="text-align: right;">4.704</td>
+<td style="text-align: right;">4.693</td>
+<td style="text-align: right;">0.310</td>
+<td style="text-align: right;">0.307</td>
+<td style="text-align: right;">4.197</td>
+<td style="text-align: right;">5.218</td>
+<td style="text-align: right;">1.002</td>
+<td style="text-align: right;">6076.813</td>
+<td style="text-align: right;">3584.917</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[22]</td>
+<td style="text-align: right;">5.870</td>
+<td style="text-align: right;">5.866</td>
+<td style="text-align: right;">0.358</td>
+<td style="text-align: right;">0.362</td>
+<td style="text-align: right;">5.289</td>
+<td style="text-align: right;">6.451</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5298.588</td>
+<td style="text-align: right;">3418.853</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[23]</td>
+<td style="text-align: right;">5.561</td>
+<td style="text-align: right;">5.566</td>
+<td style="text-align: right;">0.389</td>
+<td style="text-align: right;">0.392</td>
+<td style="text-align: right;">4.917</td>
+<td style="text-align: right;">6.199</td>
+<td style="text-align: right;">1.002</td>
+<td style="text-align: right;">6182.931</td>
+<td style="text-align: right;">3860.695</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[24]</td>
+<td style="text-align: right;">4.562</td>
+<td style="text-align: right;">4.567</td>
+<td style="text-align: right;">0.441</td>
+<td style="text-align: right;">0.446</td>
+<td style="text-align: right;">3.835</td>
+<td style="text-align: right;">5.281</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5299.736</td>
+<td style="text-align: right;">3824.800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[25]</td>
+<td style="text-align: right;">5.096</td>
+<td style="text-align: right;">5.094</td>
+<td style="text-align: right;">0.442</td>
+<td style="text-align: right;">0.442</td>
+<td style="text-align: right;">4.377</td>
+<td style="text-align: right;">5.835</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">5638.985</td>
+<td style="text-align: right;">3851.835</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[26]</td>
+<td style="text-align: right;">5.659</td>
+<td style="text-align: right;">5.664</td>
+<td style="text-align: right;">0.444</td>
+<td style="text-align: right;">0.446</td>
+<td style="text-align: right;">4.944</td>
+<td style="text-align: right;">6.378</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">7011.250</td>
+<td style="text-align: right;">3646.906</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[27]</td>
+<td style="text-align: right;">5.719</td>
+<td style="text-align: right;">5.716</td>
+<td style="text-align: right;">0.488</td>
+<td style="text-align: right;">0.479</td>
+<td style="text-align: right;">4.920</td>
+<td style="text-align: right;">6.516</td>
+<td style="text-align: right;">1.002</td>
+<td style="text-align: right;">6129.497</td>
+<td style="text-align: right;">3780.013</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[28]</td>
+<td style="text-align: right;">6.448</td>
+<td style="text-align: right;">6.438</td>
+<td style="text-align: right;">0.612</td>
+<td style="text-align: right;">0.603</td>
+<td style="text-align: right;">5.446</td>
+<td style="text-align: right;">7.467</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">6038.999</td>
+<td style="text-align: right;">3444.120</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[29]</td>
+<td style="text-align: right;">5.667</td>
+<td style="text-align: right;">5.654</td>
+<td style="text-align: right;">0.604</td>
+<td style="text-align: right;">0.610</td>
+<td style="text-align: right;">4.678</td>
+<td style="text-align: right;">6.646</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">5950.123</td>
+<td style="text-align: right;">3377.044</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b_t[30]</td>
+<td style="text-align: right;">4.365</td>
+<td style="text-align: right;">4.346</td>
+<td style="text-align: right;">0.601</td>
+<td style="text-align: right;">0.607</td>
+<td style="text-align: right;">3.415</td>
+<td style="text-align: right;">5.365</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">5965.089</td>
+<td style="text-align: right;">3543.557</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b_t[31]</td>
+<td style="text-align: right;">1.624</td>
+<td style="text-align: right;">1.622</td>
+<td style="text-align: right;">0.600</td>
+<td style="text-align: right;">0.591</td>
+<td style="text-align: right;">0.644</td>
+<td style="text-align: right;">2.604</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">4175.004</td>
+<td style="text-align: right;">3838.545</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rho</td>
+<td style="text-align: right;">0.894</td>
+<td style="text-align: right;">0.898</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">0.828</td>
+<td style="text-align: right;">0.948</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">2739.444</td>
+<td style="text-align: right;">2701.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sig_t</td>
+<td style="text-align: right;">1.077</td>
+<td style="text-align: right;">1.057</td>
+<td style="text-align: right;">0.196</td>
+<td style="text-align: right;">0.185</td>
+<td style="text-align: right;">0.794</td>
+<td style="text-align: right;">1.430</td>
+<td style="text-align: right;">1.001</td>
+<td style="text-align: right;">1669.068</td>
+<td style="text-align: right;">2703.365</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">L_Omega[2,1]</td>
+<td style="text-align: right;">0.133</td>
+<td style="text-align: right;">0.131</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-0.021</td>
+<td style="text-align: right;">0.292</td>
+<td style="text-align: right;">1.007</td>
+<td style="text-align: right;">382.611</td>
+<td style="text-align: right;">631.552</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Saving output for Panel E of Tab. 1</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab1.E</span> <span class='op'>&lt;-</span> <span class='va'>fit_wkinfo_timepers</span><span class='op'>$</span><span class='fu'>summary</span><span class='op'>(</span>
+  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mu_b[1]"</span>, <span class='st'>"sigma"</span>, <span class='st'>"tau"</span>, <span class='st'>"b_t"</span>, <span class='st'>"rho"</span>, <span class='st'>"sig_t"</span>, <span class='st'>"L_Omega[2,1]"</span><span class='op'>)</span>, 
+  <span class='va'>mean</span>, <span class='va'>sd</span>, <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>tab1.E</span>, <span class='st'>"../out/results/tab1-panE.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="comparing-bayesian-erc-estimates-to-ols-estimates-1">5.3 Comparing Bayesian ERC estimates to OLS estimates</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>posterior_b2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/posterior/reference/draws_summary.html'>summarise_draws</a></span><span class='op'>(</span><span class='va'>fit_wkinfo_timepers</span><span class='op'>$</span><span class='fu'>draws</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"b_i"</span><span class='op'>)</span><span class='op'>)</span>, 
+                               posterior_mean <span class='op'>=</span> <span class='va'>mean</span>, 
+                               posterior_sd <span class='op'>=</span> <span class='va'>sd</span>,
+                               <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+                               <span class='op'>)</span>
+<span class='va'>posterior_erc2</span> <span class='op'>&lt;-</span> 
+  <span class='va'>posterior_b2</span> |&gt; 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>variable</span>, <span class='st'>",2\\]"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>posterior_bt2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/posterior/reference/draws_summary.html'>summarise_draws</a></span><span class='op'>(</span><span class='va'>fit_wkinfo_timepers</span><span class='op'>$</span><span class='fu'>draws</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"b_t"</span><span class='op'>)</span><span class='op'>)</span>, 
+                                 posterior_mean <span class='op'>=</span> <span class='va'>mean</span>, 
+                                 posterior_sd <span class='op'>=</span> <span class='va'>sd</span>,
+                                 <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+                                 <span class='op'>)</span>
+
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>posterior_bt2</span>, <span class='st'>"../out/results/fit_wkinfo_time_bt.csv"</span><span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>posterior_b2</span>, <span class='st'>"../out/results/fit_wkinfo_time_bi.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_comparison2</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='va'>posterior_erc2</span><span class='op'>$</span><span class='va'>posterior_mean</span>, <span class='st'>"post_mean"</span><span class='op'>)</span>,
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>posterior_erc2</span>, <span class='va'>q95</span> <span class='op'>-</span> <span class='va'>q5</span><span class='op'>)</span>, <span class='st'>"post90_width"</span><span class='op'>)</span>,
+    <span class='fu'>desc_row</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>ols_results</span>, <span class='va'>estimate</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>estimate</span><span class='op'>)</span> <span class='op'>==</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>, <span class='st'>"OLS"</span><span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>fit_comparison2</span>, <span class='st'>"../out/results/fit_comp-AR1.csv"</span><span class='op'>)</span>
+
+<span class='va'>fit_comparison2</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q25</th>
+<th style="text-align: right;">q50</th>
+<th style="text-align: right;">q75</th>
+<th style="text-align: right;">q95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">post_mean</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">1.273</td>
+<td style="text-align: right;">-2.213</td>
+<td style="text-align: right;">-0.548</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.598</td>
+<td style="text-align: right;">2.153</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5%1</td>
+<td style="text-align: left;">post90_width</td>
+<td style="text-align: right;">7.410</td>
+<td style="text-align: right;">1.259</td>
+<td style="text-align: right;">4.847</td>
+<td style="text-align: right;">6.664</td>
+<td style="text-align: right;">7.835</td>
+<td style="text-align: right;">8.413</td>
+<td style="text-align: right;">8.733</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5%2</td>
+<td style="text-align: left;">OLS</td>
+<td style="text-align: right;">6.041</td>
+<td style="text-align: right;">178.593</td>
+<td style="text-align: right;">-18.689</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">3.884</td>
+<td style="text-align: right;">10.650</td>
+<td style="text-align: right;">45.904</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Compare this to the numbers from the model without time trend</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab1.C</span> |&gt;
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='va'>round</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">q5</th>
+<th style="text-align: right;">q25</th>
+<th style="text-align: right;">q50</th>
+<th style="text-align: right;">q75</th>
+<th style="text-align: right;">q95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">post_mean</td>
+<td style="text-align: right;">3.672</td>
+<td style="text-align: right;">1.414</td>
+<td style="text-align: right;">1.292</td>
+<td style="text-align: right;">2.970</td>
+<td style="text-align: right;">3.676</td>
+<td style="text-align: right;">4.288</td>
+<td style="text-align: right;">6.105</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5%1</td>
+<td style="text-align: left;">post90_width</td>
+<td style="text-align: right;">7.837</td>
+<td style="text-align: right;">1.440</td>
+<td style="text-align: right;">4.946</td>
+<td style="text-align: right;">6.933</td>
+<td style="text-align: right;">8.314</td>
+<td style="text-align: right;">9.013</td>
+<td style="text-align: right;">9.345</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5%2</td>
+<td style="text-align: left;">OLS</td>
+<td style="text-align: right;">6.041</td>
+<td style="text-align: right;">178.593</td>
+<td style="text-align: right;">-18.689</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">3.884</td>
+<td style="text-align: right;">10.650</td>
+<td style="text-align: right;">45.904</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5%3</td>
+<td style="text-align: left;">OLS pval</td>
+<td style="text-align: right;">0.362</td>
+<td style="text-align: right;">0.309</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.301</td>
+<td style="text-align: right;">0.611</td>
+<td style="text-align: right;">0.927</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="fig.-5">5.4 Fig. 5</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>posterior_bt2</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>posterior_bt2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1989</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='fu'>select</span><span class='op'>(</span><span class='va'>byyear_results</span>, Year <span class='op'>=</span> <span class='va'>EAYear</span>, OLS <span class='op'>=</span> <span class='va'>estimate</span><span class='op'>)</span>,
+            by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Year"</span><span class='op'>)</span><span class='op'>)</span> |&gt;  
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_ribbon</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>q5</span>, ymax <span class='op'>=</span> <span class='va'>q95</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_ribbon</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>q25</span>, ymax <span class='op'>=</span> <span class='va'>q75</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>OLS</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1990</span>, <span class='fl'>2020</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span><span class='op'>)</span>, expand <span class='op'>=</span> <span class='fu'>expansion</span><span class='op'>(</span>mult <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>labs</span><span class='op'>(</span>subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Yearly trend component"</span><span class='op'>~</span><span class='va'>a1</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span><span class='op'>~</span><span class='st'>"in ERCs"</span><span class='op'>)</span>,
+       y <span class='op'>=</span> <span class='st'>"Mean, 50%, and 90% interval"</span>,
+       x <span class='op'>=</span> <span class='st'>"Calendar year of the announcement"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ERC-example_files/figure-html5/fig5-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>f5.panA</span> <span class='op'>&lt;-</span>
+  <span class='va'>posterior_bt2</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>posterior_bt2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1989</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='fu'>select</span><span class='op'>(</span><span class='va'>byyear_results</span>, Year <span class='op'>=</span> <span class='va'>EAYear</span>, OLS <span class='op'>=</span> <span class='va'>estimate</span><span class='op'>)</span>,
+            by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Year"</span><span class='op'>)</span><span class='op'>)</span> |&gt;  
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_ribbon</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>q5</span>, ymax <span class='op'>=</span> <span class='va'>q95</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_ribbon</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>q25</span>, ymax <span class='op'>=</span> <span class='va'>q75</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>OLS</span><span class='op'>)</span>, linetype <span class='op'>=</span> <span class='fl'>2</span>, color <span class='op'>=</span> <span class='st'>"grey40"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1990</span>, <span class='fl'>2020</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span><span class='op'>)</span>, expand <span class='op'>=</span> <span class='fu'>expansion</span><span class='op'>(</span>mult <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>labs</span><span class='op'>(</span>subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Yearly trend component"</span><span class='op'>~</span><span class='va'>a</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>*</span><span class='st'>","</span><span class='op'>*</span><span class='va'>t</span><span class='op'>]</span><span class='op'>~</span><span class='st'>"in ERCs"</span><span class='op'>)</span>,
+       y <span class='op'>=</span> <span class='st'>"Mean, 50%, and 90% interval"</span>,
+       x <span class='op'>=</span> <span class='st'>"Calendar year of the announcement"</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, label <span class='op'>=</span> <span class='st'>"OLS estimates"</span>, x <span class='op'>=</span> <span class='fl'>2015.5</span>, y <span class='op'>=</span> <span class='fl'>3.3</span>, size <span class='op'>=</span> <span class='fl'>3</span>, color <span class='op'>=</span> <span class='st'>"grey40"</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, label <span class='op'>=</span> <span class='st'>"Bayes posterior"</span>, x <span class='op'>=</span> <span class='fl'>2004</span>, y <span class='op'>=</span> <span class='fl'>7.5</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> 
+
+<span class='va'>f5.panB</span> <span class='op'>&lt;-</span>
+  <span class='va'>posterior_erc2</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>rank <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rank.html'>rank</a></span><span class='op'>(</span><span class='va'>posterior_mean</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>rank</span>, y <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_linerange</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>q5</span>, ymax <span class='op'>=</span> <span class='va'>q95</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>expand <span class='op'>=</span> <span class='fu'>expansion</span><span class='op'>(</span>mult <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.01</span>, <span class='fl'>0.01</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Mean and 90% interval"</span>,
+       x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>*</span><span class='st'>","</span><span class='op'>*</span><span class='va'>i</span><span class='op'>]</span><span class='op'>~</span><span class='st'>"rank"</span><span class='op'>)</span>,
+       subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Firm-individual ERC component"</span><span class='op'>~</span><span class='va'>a</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>*</span><span class='st'>","</span><span class='op'>*</span><span class='va'>i</span><span class='op'>]</span><span class='op'>~</span><span class='st'>"from smallest to largest"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>fig5</span> <span class='op'>&lt;-</span> 
+  <span class='va'>f5.panA</span> <span class='op'>/</span> <span class='va'>f5.panB</span> <span class='op'>+</span> 
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>tag_levels <span class='op'>=</span> <span class='st'>"A"</span><span class='op'>)</span> <span class='op'>&amp;</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
+<span class='va'>fig5</span>
+</code></pre>
+</div>
+<p><img src="ERC-example_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
+<p>Saving figure</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>save_fig</span><span class='op'>(</span><span class='va'>fig5</span>, figname <span class='op'>=</span> <span class='st'>"fig5"</span>, w <span class='op'>=</span> <span class='fl'>6.2</span>, h <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hschuett/BayesForAccountingResearch/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hschuett/BayesForAccountingResearch">https://github.com/hschuett/BayesForAccountingResearch</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

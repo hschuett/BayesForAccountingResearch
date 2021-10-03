@@ -1,3 +1,6 @@
 library(rmarkdown)
-render_site("01-classic-vs-bayes.Rmd")
+render_site("classic-vs-bayes.Rmd")
+render_site("ERC-example.Rmd")
+render_site("ERC-example-prior.Rmd")
+render_site("index.Rmd")
 render_site()

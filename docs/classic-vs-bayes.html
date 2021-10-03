@@ -2081,7 +2081,8 @@ Paper Code
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="01-classic-vs-bayes.html">Section 2: Simulation</a>
+<a href="classic-vs-bayes.html">Section 2: Simulation</a>
+<a href="ERC-example.html">Section 3: ERC Example</a>
 </div>
 </div>
 <a href="https://github.com/hschuett/BayesForAccountingResearch" aria-label="Link to source">
@@ -2165,7 +2166,7 @@ Paper Code
 </div>
 <h2 id="introduction-and-preliminaries">1. Introduction and preliminaries</h2>
 <p>This markdown file contains all the code necessary to replicate the figures, models and results used in Section 2: <em>Bayesian inference compared to classical inference</em> of the Paper <em>What Can Bayesian Inference Do for Accounting Research?</em>. All the code can also be found in the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>. It contains <code>00-utils.R</code> which contains a few helper functions for graphs and tables.</p>
-<p><strong>Note:</strong> I started using the newer <a href="https://mc-stan.org/cmdstanr/">cmdstanr</a> package instead of the older <a href="https://mc-stan.org/rstan/">rstan</a> package because it likely is the future of the R based stan ecosystem. I also really like its api, which is very close to the api of the <a href="https://pystan.readthedocs.io/en/latest/">pystan</a> package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python.</p>
+<p><strong>Note:</strong> I started using the newer <a href="https://mc-stan.org/cmdstanr/">cmdstanr</a> package instead of the older <a href="https://mc-stan.org/rstan/">rstan</a> package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the <a href="https://pystan.readthedocs.io/en/latest/">pystan</a> package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python.</p>
 <p>Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr <a href="https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html">doc</a> for installation instructions</p>
 <h2 id="creating-the-simulated-data">2. Creating the simulated data</h2>
 <p>First we create the 50 samples of 50 observations each</p>
@@ -2331,7 +2332,7 @@ Paper Code
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fig1</span>
 </code></pre>
 </div>
-<p><img src="01-classic-vs-bayes_files/figure-html5/unnamed-chunk-10-1.png" width="780" /></p>
+<p><img src="classic-vs-bayes_files/figure-html5/unnamed-chunk-10-1.png" width="780" /></p>
 </div>
 <h2 id="additional-t-test-figure">5. Additional t-test figure</h2>
 <p>This one is not in the paper. I used it for an internal Ph.D. seminar</p>
@@ -2365,15 +2366,15 @@ Paper Code
 <span class='va'>fZ</span>
 </code></pre>
 </div>
-<p><img src="01-classic-vs-bayes_files/figure-html5/unnamed-chunk-11-1.png" width="576" /></p>
+<p><img src="classic-vs-bayes_files/figure-html5/unnamed-chunk-11-1.png" width="576" /></p>
 </div>
 <h2 id="fitting-the-bayesian-models">6. Fitting the Bayesian models</h2>
-<p>To fit a Bayesian model I use <a href="https://mc-stan.org/">Stan</a>, or, more precisely, its R bindings in cmdstanr. So, to fit a Bayesian model, we first need to:</p>
+<p>To fit a Bayesian model I use <a href="https://mc-stan.org/">Stan</a>, or, more precisely, its R bindings in cmdstanr. To fit a Bayesian model, we need to:</p>
 <ol type="1">
-<li>Write the corresponding model in Stan code</li>
-<li>Compile the code into an model executable (an .exe file)</li>
+<li>Write the corresponding model using the Stan language</li>
+<li>Compile the code into a Stan model executable (an .exe file)</li>
 <li>Make a list of data to feed into the .exe file</li>
-<li>Let the model actually run and generate MCMC chains (or whatever algorithm is specified)</li>
+<li>Let the model run and generate MCMC chains (or whatever algorithm is specified)</li>
 </ol>
 <h3 id="bayesian-model-with-diffusevery-weak-priors">6.1 Bayesian model with diffuse/very weak priors</h3>
 <div class="layout-chunk" data-layout="l-body">
@@ -2398,7 +2399,7 @@ Paper Code
 <pre><code>   u_y    u_x    s_y    s_x 
  0.499 -0.060 20.638  1.092 </code></pre>
 </div>
-<p>The model itself is coded in the <a href="https://mc-stan.org/">stan language</a>. There are many excellent tutorials on Stan available online. So I won’t waste space explaining it here. For various reasons (e.g., debugging) it is customary to put the model code in a separate .stan file. All the model files can be found in the /Stan/ folder of the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>.</p>
+<p>The model itself is coded in the <a href="https://mc-stan.org/">Stan language</a>. There are many excellent tutorials on Stan available online. So I won’t waste space explaining it here. For various reasons (e.g., debugging) it is customary to put the model code in a separate .stan file. All the model files can be found in the /Stan/ folder of the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>read_lines</span><span class='op'>(</span><span class='st'>"../Stan/sim-vweak-priors.stan"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span>
@@ -2426,7 +2427,7 @@ model{
 }</code></pre>
 </div>
 <aside>
-<p>The model code in stan language</p>
+<p>The model code in Stan language</p>
 </aside>
 <p>Next, we compile the model to an .exe file</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2476,12 +2477,12 @@ Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
-Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
 Chain 1 finished in 0.1 seconds.
 Chain 2 finished in 0.1 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 3 finished in 0.1 seconds.
 Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 4 finished in 0.1 seconds.
@@ -2654,10 +2655,10 @@ Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
-Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 1 finished in 0.1 seconds.
 Chain 2 finished in 0.1 seconds.
 Chain 3 finished in 0.1 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 4 finished in 0.1 seconds.
 
 All 4 chains finished successfully.
@@ -2991,14 +2992,14 @@ BCCD
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fig2.s1</span>
 </code></pre>
 </div>
-<p><img src="01-classic-vs-bayes_files/figure-html5/unnamed-chunk-33-1.png" width="780" /></p>
+<p><img src="classic-vs-bayes_files/figure-html5/unnamed-chunk-33-1.png" width="780" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fig2.s2</span>
 </code></pre>
 </div>
-<p><img src="01-classic-vs-bayes_files/figure-html5/unnamed-chunk-34-1.png" width="780" /></p>
+<p><img src="classic-vs-bayes_files/figure-html5/unnamed-chunk-34-1.png" width="780" /></p>
 </div>
 <p>Saving subfigures</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3046,6 +3047,7 @@ BCCD
 Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
@@ -3053,20 +3055,19 @@ Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
 Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
 Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
-Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
-Chain 1 finished in 0.2 seconds.
+Chain 1 finished in 0.1 seconds.
 Chain 2 finished in 0.1 seconds.
-Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 3 finished in 0.1 seconds.
 Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
 Chain 4 finished in 0.1 seconds.
 
 All 4 chains finished successfully.
 Mean chain execution time: 0.1 seconds.
-Total execution time: 0.3 seconds.</code></pre>
+Total execution time: 0.4 seconds.</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -3290,7 +3291,7 @@ Total execution time: 0.3 seconds.</code></pre>
 <span class='va'>fig3</span>
 </code></pre>
 </div>
-<p><img src="01-classic-vs-bayes_files/figure-html5/unnamed-chunk-42-1.png" width="780" /></p>
+<p><img src="classic-vs-bayes_files/figure-html5/unnamed-chunk-42-1.png" width="780" /></p>
 </div>
 <p>Saving figure</p>
 <div class="layout-chunk" data-layout="l-body">

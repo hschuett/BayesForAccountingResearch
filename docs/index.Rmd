@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Inference for Accounting Research"
+title: "A Primer on Bayesian Inference for Accounting Research"
 description: |
   Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.
 author:
@@ -26,6 +26,14 @@ The site is organized as follows. The first part provides the annotated code to 
 
 ## Paper code
 
--   [Section 2: Simulation](01-classic-vs-bayes.html) contains all the code to replicate the figures and results from Section 2, which compares Classical hypothesis testing to Bayesian inference.
+- [Section 2: Simulation](classic-vs-bayes.html) contains all the code to replicate the figures and results from Section 2, which compares Classical hypothesis testing to Bayesian inference.
+
+- [Section 3: ERC Example](ERC-example.html) contains all the code to replicate the figures and results from the ERC example in Section 3. Only the prior predictive checks and cross-validation test are kept in the separate files (below).
+
+- [Section 3: ERC Prior Check](ERC-example-prior.html) contains the code to replicate the prior simulation check from the ERC example in Section 3.
+
+- [Section 3: ERC Prior Check](ERC-example-prior.html) contains the code to replicate the 10-fold cross validation test from the ERC example in Section 3.
 
 ## Additional material
+
+- [MCMC primer](mcmc.html) is a very very brief explanation of how Bayesian models are fit using MCMC techniques. Definitely check out the links here that point towards more in-depth explanations.

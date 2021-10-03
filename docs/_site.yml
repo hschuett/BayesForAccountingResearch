@@ -2,8 +2,8 @@ name: "docs"
 title: "Bayesian Inference for Accounting Research"
 description: |
   Bayesian Inference for Accounting Research
-base_url: https://github.io/hschuett/AccForUncertaintyCode
-repository_url: https://github.com/hschuett/AccForUncertaintyCode
+base_url: https://github.com/hschuett/BayesForAccountingResearch
+repository_url: https://github.com/hschuett/BayesForAccountingResearch
 creative_commons: CC BY
 output_dir: "."
 navbar:

@@ -37,7 +37,12 @@ vignettes/*.pdf
 
 # Ignored folders
 ppr/*
+ppt/*
+out/*
 lit/
 docs/
-data/*.rds
+data/*
+stan/*.exe
+R/old/*
 *.Rproj
+distillpage/

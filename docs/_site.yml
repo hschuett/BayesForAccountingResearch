@@ -24,5 +24,7 @@ navbar:
       menu:
         - text: "MCMC Sampling"
           href: mcmc.html
+        - text: "Useful Links"
+          href: links.html
   source_url: true
 output: distill::distill_article

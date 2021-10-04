@@ -37,3 +37,5 @@ The site is organized as follows. The first part provides the annotated code to 
 ## Additional material
 
 - [MCMC primer](mcmc.html) is a very very brief explanation of how Bayesian models are fit using MCMC techniques. Definitely check out the links here that point towards more in-depth explanations.
+
+- [Useful Links](links.html) is a collection of links to documentation, tutorials, videos, and other helpful material for those interested in learning about Bayesian statistics.

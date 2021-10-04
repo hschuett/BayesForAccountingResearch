@@ -1,0 +1,53 @@
+---
+title: "Useful Links"
+description: |
+  A collection of links to documentation, tutorials, videos, and other helpful material for those interested in learning about Bayesian statistics.
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+bibliography: references.bib
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+## 1. Docs
+
+- Stan [website](https://mc-stan.org/)
+- The Stan [Forums](http://discourse.mc-stan.org/) (Stan developers and users usually very responsive here)
+- Stan documentation (links to various kinds of documentation for Stan): 
+  - Stan Modeling Language [User’s Guide](https://mc-stan.org/docs/2_27/stan-users-guide/index.html) and [Reference Manual](https://mc-stan.org/docs/2_27/reference-manual/index.html)
+  - [Case Studies](https://mc-stan.org/users/documentation/case-studies)
+
+## 2. Education material
+
+- The excellent book [*Statistical Rethinking*](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath
+- The corresponding, similarly excellent lecture [videos](https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI) by Richard McElreath
+- Stan developer Ben Goodrich's lecture [videos](https://www.youtube.com/playlist?list=PLSZp9QshJ8wyPCgoQR0Kw3HDNuy1FEZH9) and [materials](https://courseworks2.columbia.edu/courses/54170/files) from his masters-level course at Columbia *Bayesian Statistics for the Social Sciences*
+- Past Stan conferences, including videos, slides, and code ([stancon_talks repository](https://github.com/stan-dev/stancon_talks/blob/master/README.md))
+
+## 3. MCMC Sampling and Hamiltonian Monte Carlo (HMC)
+
+- A Conceptual Introduction to Hamiltonian Monte Carlo ([paper](https://arxiv.org/abs/1701.02434))
+- A great Markov-chain Monte Carlo Interactive Gallery ([website](https://chi-feng.github.io/mcmc-demo/)). Helps a lot in visualizing how these algorithms work
+
+## 4. Bayesian Workflow 
+
+- Big Bayesian workflow paper by Gelman and many others [link](https://arxiv.org/abs/2011.01808)
+- Visualization in Bayesian Workflow ([paper](https://arxiv.org/abs/1709.01449), [code](https://github.com/jgabry/bayes-vis-paper))
+- Jim Savage's [A quick-start introduction to Stan for economists](http://nbviewer.jupyter.org/github/QuantEcon/QuantEcon.notebooks/blob/master/IntroToStan_basics_workflow.ipynb) is a good guide to Bayesian data analysis workflow regardless of whether or not you care about economics
+- Jim Savage's blog post [Building useful models for industry—some tips
+](http://modernstatisticalworkflow.blogspot.com/2017/01/building-useful-models-for-industrysome.html)
+- Jeff Arnold's [notes on heteroscedasticity](https://jrnold.github.io/bayesian_notes/heteroskedasticity.html), with RStan examples
+
+
+## 5. Diagnostics and reparameterization 
+
+- Visual MCMC diagnostics ([tutorial vignette](http://mc-stan.org/bayesplot/articles/visual-mcmc-diagnostics.html))
+- Diagnosing biased inference with divergences ([case study](http://mc-stan.org/users/documentation/case-studies/divergences_and_bias.html))
+- A few simple reparameterizations ([blog post](http://modernstatisticalworkflow.blogspot.com/2017/07/a-few-simple-reparameterizations.html))
+- A bag of tips and tricks for dealing with scale issues ([blog post/case study](http://modernstatisticalworkflow.blogspot.com/2016/11/a-bag-of-tips-and-tricks-for-dealing.html))

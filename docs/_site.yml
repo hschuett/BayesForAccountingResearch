@@ -20,5 +20,9 @@ navbar:
           href: ERC-example-prior.html
         - text: "Section 3: ERC Cross-Val Test"
           href: ERC-example-cv.html
+    - text: "Additional Material"
+      menu:
+        - text: "MCMC Sampling"
+          href: mcmc.html
   source_url: true
 output: distill::distill_article

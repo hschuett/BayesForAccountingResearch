@@ -1,0 +1,18 @@
+---
+title: "10-fold cross-validation predictions of ERCs"
+description: |
+  Part three of the code for Section 3: Heterogeneity in earnings response coefficients
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r, child="../R/05-ERC-example-cv.Rmd"}
+```

@@ -86,34 +86,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>A Primer on Bayesian Inference for Accounting Research</title>
+  <title>A Primer on Bayesian Inference for Accounting Research: 10-fold cross-validation predictions of ERCs</title>
 
-  <meta property="description" itemprop="description" content="Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful."/>
+  <meta property="description" itemprop="description" content="Part three of the code for Section 3: Heterogeneity in earnings response coefficients"/>
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-10-04"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-10-04"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-10-03"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-10-03"/>
   <meta name="article:author" content="Harm Schuett"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="A Primer on Bayesian Inference for Accounting Research"/>
+  <meta property="og:title" content="A Primer on Bayesian Inference for Accounting Research: 10-fold cross-validation predictions of ERCs"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful."/>
+  <meta property="og:description" content="Part three of the code for Section 3: Heterogeneity in earnings response coefficients"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="A Primer on Bayesian Inference for Accounting Research"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="A Primer on Bayesian Inference for Accounting Research"/>
-  <meta property="twitter:description" content="Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful."/>
+  <meta property="twitter:title" content="A Primer on Bayesian Inference for Accounting Research: 10-fold cross-validation predictions of ERCs"/>
+  <meta property="twitter:description" content="Part three of the code for Section 3: Heterogeneity in earnings response coefficients"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["A Primer on Bayesian Inference for Accounting Research"]},{"type":"character","attributes":{},"value":["Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Harm Schuett"]},{"type":"character","attributes":{},"value":["https://hschuett.github.io/"]},{"type":"character","attributes":{},"value":["Tilburg University"]},{"type":"character","attributes":{},"value":["https://www.tilburguniversity.edu"]}]}]},{"type":"character","attributes":{},"value":["2021-10-04"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["10-fold cross-validation predictions of ERCs"]},{"type":"character","attributes":{},"value":["Part three of the code for Section 3: Heterogeneity in earnings response coefficients\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Harm Schuett"]},{"type":"character","attributes":{},"value":["https://hschuett.github.io/"]},{"type":"character","attributes":{},"value":["Tilburg University"]},{"type":"character","attributes":{},"value":["https://www.tilburguniversity.edu"]}]}]},{"type":"character","attributes":{},"value":["2021-10-03"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2039,6 +2039,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/clipboard-2.0.6/clipboard.min.js"></script>
+  <link href="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+  <script src="site_libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+  <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2058,7 +2062,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"A Primer on Bayesian Inference for Accounting Research","description":"Welcome to the companion website for the paper *What Can Bayesian Inference Do for Accounting Research?* I hope this site and the accompanying [GitHub repo](https://github.com/hschuett/BayesForAccountingResearch) will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.","authors":[{"author":"Harm Schuett","authorURL":"https://hschuett.github.io/","affiliation":"Tilburg University","affiliationURL":"https://www.tilburguniversity.edu","orcidID":""}],"publishedDate":"2021-10-04T00:00:00.000+02:00","citationText":"Schuett, 2021"}
+{"title":"10-fold cross-validation predictions of ERCs","description":"Part three of the code for Section 3: Heterogeneity in earnings response coefficients","authors":[{"author":"Harm Schuett","authorURL":"https://hschuett.github.io/","affiliation":"Tilburg University","affiliationURL":"https://www.tilburguniversity.edu","orcidID":""}],"publishedDate":"2021-10-03T00:00:00.000+02:00","citationText":"Schuett, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2073,7 +2077,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
 Paper Code
- 
+  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
@@ -2086,7 +2090,7 @@ Paper Code
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
 Additional Material
- 
+  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
@@ -2105,32 +2109,615 @@ Additional Material
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>A Primer on Bayesian Inference for Accounting Research</h1>
+<h1>10-fold cross-validation predictions of ERCs</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Welcome to the companion website for the paper <em>What Can Bayesian Inference Do for Accounting Research?</em> I hope this site and the accompanying <a href="https://github.com/hschuett/BayesForAccountingResearch">GitHub repo</a> will help those interested in Bayesian methods to find a starting point. Hopefully you find it useful.</p></p>
+<p><p>Part three of the code for Section 3: Heterogeneity in earnings response coefficients</p></p>
 </div>
 
 <div class="d-byline">
   Harm Schuett <a href="https://hschuett.github.io/" class="uri">https://hschuett.github.io/</a> (Tilburg University)<a href="https://www.tilburguniversity.edu" class="uri">https://www.tilburguniversity.edu</a>
   
-<br/>2021-10-04
+<br/>2021-10-03
 </div>
 
 <div class="d-article">
-<p>The site is organized as follows. The first part provides the annotated code to produce the output and figures used in the paper (the <a href="https://github.com/hschuett/BayesForAccountingResearch">GitHub repo</a> also contains the code to compute the data used). Code can be copied easily to the clipboard and be reused. The second part is still under development and contains additional material useful to those interested in Bayesian analysis.</p>
-<h2 id="paper-code">Paper code</h2>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
-<li><p><a href="classic-vs-bayes.html">Section 2: Simulation</a> contains all the code to replicate the figures and results from Section 2, which compares Classical hypothesis testing to Bayesian inference.</p></li>
-<li><p><a href="ERC-example.html">Section 3: ERC Example</a> contains all the code to replicate the figures and results from the ERC example in Section 3. Only the prior predictive checks and cross-validation test are kept in the separate files (below).</p></li>
-<li><p><a href="ERC-example-prior.html">Section 3: ERC Prior Check</a> contains the code to replicate the prior simulation check from the ERC example in Section 3.</p></li>
-<li><p><a href="ERC-example-prior.html">Section 3: ERC Prior Check</a> contains the code to replicate the 10-fold cross validation test from the ERC example in Section 3.</p></li>
+<li><a href="#introduction-and-preliminaries">1. Introduction and preliminaries</a></li>
+<li><a href="#loading-the-data">2. Loading the data</a></li>
+<li><a href="#creating-10-fold-cv-datasets">3. Creating 10-fold CV datasets</a></li>
+<li><a href="#ols-oos-predictions">4. OLS OOS predictions</a></li>
+<li><a href="#bayesian-oos-prediction">5. Bayesian OOS prediction</a></li>
+<li><a href="#table-2">6. Table 2</a></li>
 </ul>
-<h2 id="additional-material">Additional material</h2>
-<ul>
-<li><a href="mcmc.html">MCMC primer</a> is a very very brief explanation of how Bayesian models are fit using MCMC techniques. Definitely check out the links here that point towards more in-depth explanations.</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mc-stan.org/cmdstanr'>cmdstanr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mc-stan.org/posterior/'>posterior</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsample.tidymodels.org'>rsample</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/source.html'>source</a></span><span class='op'>(</span><span class='st'>"00-utils.R"</span><span class='op'>)</span>
+<span class='va'>kable</span> <span class='op'>&lt;-</span> <span class='fu'>knitr</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_prodgray</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="introduction-and-preliminaries">1. Introduction and preliminaries</h2>
+<p>This markdown file contains all the code necessary to replicate the cross-validation prediction test from Section 3: <em>Heterogeneity in earnings response coefficients</em> of the Paper <em>What Can Bayesian Inference Do for Accounting Research?</em>. All the code can also be found in the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>. It contains <code>00-utils.R</code> which contains a few helper functions for graphs and tables.</p>
+<p><strong>Note:</strong> I used the newer <a href="https://mc-stan.org/cmdstanr/">cmdstanr</a> package instead of the older <a href="https://mc-stan.org/rstan/">rstan</a> package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the <a href="https://pystan.readthedocs.io/en/latest/">pystan</a> package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python. Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr <a href="https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html">doc</a> for installation instructions</p>
+<h2 id="loading-the-data">2. Loading the data</h2>
+<p>The data used here is generated via the <code>02-create-ERC-sample.R</code> script found in the <a href="https://github.com/hschuett/BayesForAccountingResearch">repo</a>. Here, we just load it and do some last minute transformations like de-meaning, etc.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ea_data</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"../data/ea-event-returns.pqt"</span><span class='op'>)</span> 
+<span class='va'>ea_data</span> <span class='op'>&lt;-</span> 
+  <span class='va'>ea_data</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    ret_dm <span class='op'>=</span> <span class='va'>AbEvRet</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>AbEvRet</span><span class='op'>)</span>,
+    earn_surp_dm <span class='op'>=</span> <span class='va'>earn_surp</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>earn_surp</span><span class='op'>)</span>
+    <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 6 x 15
+  ticker permno fpend_date ea_date    actual_eps median_fcast_eps
+  &lt;chr&gt;   &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+1 001N    14504 2014-12-31 2015-02-09       0.04            0.03 
+2 001N    14504 2015-03-31 2015-05-05       0.06           -0.045
+3 001N    14504 2015-06-30 2015-08-05       0.02           -0.015
+4 001N    14504 2015-09-30 2015-11-04      -0.02            0.04 
+5 002T    14503 2014-06-30 2014-08-07       0.19            0.235
+6 002T    14503 2014-09-30 2014-11-04       0.18            0.34 
+# ... with 9 more variables: num_forecasts &lt;int&gt;,
+#   two_days_bef_ea &lt;date&gt;, Price &lt;dbl&gt;, earn_surp &lt;dbl&gt;,
+#   ea_match_date &lt;date&gt;, AbEvRet &lt;dbl&gt;, firm_id &lt;int&gt;, ret_dm &lt;dbl&gt;,
+#   earn_surp_dm &lt;dbl&gt;</code></pre>
+</div>
+<h2 id="creating-10-fold-cv-datasets">3. Creating 10-fold CV datasets</h2>
+<p>This creates the 10 random splits of the sample</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>3597</span><span class='op'>)</span>
+<span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>ea_data</span>, v <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 10
+Columns: 2
+$ splits &lt;list&gt; [&lt;vfold_split[60624 x 6736 x 67360 x 15]&gt;], [&lt;vfold_~
+$ id     &lt;chr&gt; &quot;Fold01&quot;, &quot;Fold02&quot;, &quot;Fold03&quot;, &quot;Fold04&quot;, &quot;Fold05&quot;, &quot;Fo~</code></pre>
+</div>
+<h2 id="ols-oos-predictions">4. OLS OOS predictions</h2>
+<p>Next, loop through the 10 splits and train the OLS model on each train split and compute predictions for holdout part.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ols_fit</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.d</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>ret_dm</span> <span class='op'>~</span> <span class='va'>earn_surp_dm</span>, data <span class='op'>=</span> <span class='va'>.d</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>ols_pred</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.fit</span>, <span class='va'>.nd</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='co'># Note there are some singularity warnings in here. Mainly due to insufficient n.obs</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span>
+  <span class='va'>fit_pred</span> <span class='op'>&lt;-</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/augment.html'>augment</a></span><span class='op'>(</span><span class='va'>.fit</span>, newdata <span class='op'>=</span> <span class='va'>.nd</span><span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>ols_predictions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"list"</span>, length <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>train_set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='va'>holdout_set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>assessment</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+  
+  <span class='va'>ea_data_train</span> <span class='op'>&lt;-</span> 
+    <span class='va'>train_set</span> |&gt;
+    <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>firm_id</span><span class='op'>)</span><span class='op'>)</span> 
+  
+  <span class='va'>ea_data_test</span> <span class='op'>&lt;-</span> 
+    <span class='va'>holdout_set</span> |&gt;
+    <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>firm_id</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>rename</span><span class='op'>(</span>test_data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
+  
+  <span class='va'>data_slice</span> <span class='op'>&lt;-</span> 
+    <span class='va'>ea_data_train</span> |&gt; 
+    <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>ea_data_test</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ticker"</span>, <span class='st'>"firm_id"</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='va'>ols_predictions</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> 
+    <span class='va'>data_slice</span> |&gt;
+    <span class='fu'>mutate</span><span class='op'>(</span>ols_fit <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span>.x <span class='op'>=</span> <span class='va'>data</span>, .f <span class='op'>=</span> <span class='op'>~</span><span class='fu'>ols_fit</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>mutate</span><span class='op'>(</span>ols_pred <span class='op'>=</span> <span class='fu'>map2</span><span class='op'>(</span>.x <span class='op'>=</span> <span class='va'>ols_fit</span>, .y <span class='op'>=</span> <span class='va'>test_data</span>, .f <span class='op'>=</span> <span class='va'>ols_pred</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>firm_id</span>, <span class='va'>ols_pred</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>unnest</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ols_pred</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ticker</span>, <span class='va'>firm_id</span>, <span class='va'>ea_date</span>, <span class='va'>ret_dm</span>, ols_pred <span class='op'>=</span> <span class='va'>.fitted</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>ols_predictions</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>ols_predictions</span><span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>ols_predictions</span>, file <span class='op'>=</span> <span class='st'>"../out/results/ols-dump.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="bayesian-oos-prediction">5. Bayesian OOS prediction</h2>
+<p>Do the same for the Bayes model. Loop through the 10 splits and train the Bayes model on each train split and compute predictions for holdout part.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>read_lines</span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors-oos.stan"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>data{
+  int&lt;lower=1&gt; N;                   // num obs
+  int&lt;lower=1&gt; J;                   // num groups
+  int&lt;lower=1&gt; K;                   // num coefficients
+  int&lt;lower=1, upper=J&gt; GroupID[N]; // GroupID for obs, e.g. FirmID or Industry-YearID
+  vector[N] y;                      // Response
+  matrix[N, K] x;                   // Predictors (incl. Intercept)
+
+  // data for the oos test
+  int&lt;lower=1&gt; N_test;              // num obs in test sample
+  matrix[N_test, K] x_test;              // Predictors (incl. Intercept)
+  int&lt;lower=1, upper=J&gt; GroupID_test[N_test]; // GroupID for  for test sample obs
+}
+parameters{
+  matrix[K, J] z;                  // standard normal sampler
+  cholesky_factor_corr[K] L_Omega; // hypprior coefficient correlation
+  vector&lt;lower=0&gt;[K] tau;          // hypprior coefficient scales
+  vector[K] mu_b;                  // hypprior mean coefficients
+  real&lt;lower=0&gt; sigma;             // error-term scale
+}
+transformed parameters{
+  matrix[J, K] b;                  // coefficient vector
+  // The multivariate non-centered version:
+  b = (rep_matrix(mu_b, J) + diag_pre_multiply(tau,L_Omega) * z)&#39;;
+}
+model{
+  to_vector(z) ~ normal(0, 1);
+  L_Omega ~ lkj_corr_cholesky(2);
+  mu_b[1]  ~ normal(0, 0.1);
+  mu_b[2]  ~ normal(0, 40);
+  sigma ~ exponential(1.0 / 0.08);   // exp: 0.08 (std (abnormal returns))
+  tau[1] ~ exponential(1.0 / 0.1);   // exp: 0.1
+  tau[2] ~ exponential(1.0 / 40);    // exp: 40
+  y ~ normal(rows_dot_product(b[GroupID] , x), sigma);
+}
+generated quantities {
+  vector[N_test] y_pred = rows_dot_product(b[GroupID_test] , x_test);
+}</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model_wkinfo_priors</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/cmdstanr/reference/cmdstan_model.html'>cmdstan_model</a></span><span class='op'>(</span><span class='st'>"../Stan/erc-wkinfo-priors-oos.stan"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>Beware, the following code chunk can take a long time</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>bay_predictions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"list"</span>, length <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>train_set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='va'>holdout_set</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>assessment</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+  
+  <span class='va'>input_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    N <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>train_set</span><span class='op'>)</span>,
+    J <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>ea_data</span><span class='op'>$</span><span class='va'>firm_id</span><span class='op'>)</span>,  <span class='co'># important! Needs to refer to full sample</span>
+    K <span class='op'>=</span> <span class='fl'>2</span>,
+    GroupID <span class='op'>=</span> <span class='va'>train_set</span><span class='op'>$</span><span class='va'>firm_id</span>,
+    y <span class='op'>=</span> <span class='va'>train_set</span><span class='op'>$</span><span class='va'>AbEvRet</span>,
+    x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>int <span class='op'>=</span> <span class='fl'>1</span>, esurp <span class='op'>=</span> <span class='va'>train_set</span><span class='op'>$</span><span class='va'>earn_surp</span><span class='op'>)</span><span class='op'>)</span>,
+    
+    N_test <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>holdout_set</span><span class='op'>)</span>,
+    x_test <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>int <span class='op'>=</span> <span class='fl'>1</span>, esurp <span class='op'>=</span> <span class='va'>holdout_set</span><span class='op'>$</span><span class='va'>earn_surp</span><span class='op'>)</span><span class='op'>)</span>,
+    GroupID_test <span class='op'>=</span> <span class='va'>holdout_set</span><span class='op'>$</span><span class='va'>firm_id</span>
+  <span class='op'>)</span>
+  
+  <span class='va'>fit_wkinfo_priors</span> <span class='op'>&lt;-</span> <span class='va'>model_wkinfo_priors</span><span class='op'>$</span><span class='fu'>sample</span><span class='op'>(</span>
+    data <span class='op'>=</span> <span class='va'>input_data</span>,
+    iter_sampling <span class='op'>=</span> <span class='fl'>1000</span>,
+    iter_warmup <span class='op'>=</span> <span class='fl'>1000</span>,
+    chains <span class='op'>=</span> <span class='fl'>4</span>,
+    parallel_chains <span class='op'>=</span> <span class='fl'>4</span>,
+    seed <span class='op'>=</span> <span class='fl'>1234</span>,
+    refresh <span class='op'>=</span> <span class='fl'>1000</span>
+  <span class='op'>)</span>
+  
+  <span class='va'>posterior_ypred</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://mc-stan.org/posterior/reference/draws_summary.html'>summarise_draws</a></span><span class='op'>(</span>
+    <span class='va'>fit_wkinfo_priors</span><span class='op'>$</span><span class='fu'>draws</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"y_pred"</span><span class='op'>)</span><span class='op'>)</span>, 
+      posterior_mean <span class='op'>=</span> <span class='va'>mean</span>,
+      posterior_median <span class='op'>=</span> <span class='va'>median</span>, 
+      posterior_sd <span class='op'>=</span> <span class='va'>sd</span>,
+      <span class='op'>~</span><span class='fu'><a href='https://mc-stan.org/posterior/reference/quantile2.html'>quantile2</a></span><span class='op'>(</span><span class='va'>.</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>)</span>
+  
+   <span class='va'>bay_predictions</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> 
+     <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'>select</span><span class='op'>(</span><span class='va'>holdout_set</span>, <span class='va'>ticker</span>, <span class='va'>firm_id</span>, <span class='va'>ea_date</span>, <span class='va'>ret_dm</span><span class='op'>)</span>, 
+           <span class='va'>posterior_ypred</span>
+           <span class='op'>)</span>
+   
+   <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>posterior_ypred</span>, <span class='va'>train_set</span>, <span class='va'>holdout_set</span>, <span class='va'>input_data</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+<pre><code>Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1646.5 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1835.0 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1850.0 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1888.3 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1805.0 seconds.
+Total execution time: 1889.0 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1857.0 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1862.4 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1877.6 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1884.0 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1870.3 seconds.
+Total execution time: 1884.5 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1752.9 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1844.6 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1852.3 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1897.3 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1836.8 seconds.
+Total execution time: 1897.8 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1811.5 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1833.4 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1858.0 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1869.6 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1843.1 seconds.
+Total execution time: 1870.0 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1656.0 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1711.2 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1817.6 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1855.2 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1760.0 seconds.
+Total execution time: 1855.8 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1647.9 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1805.2 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1872.3 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1895.3 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1805.2 seconds.
+Total execution time: 1895.9 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1599.3 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1619.7 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1662.0 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1752.3 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1658.3 seconds.
+Total execution time: 1752.7 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1818.5 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1832.0 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1898.6 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1959.4 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1877.1 seconds.
+Total execution time: 1959.9 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1738.1 seconds.
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1795.9 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1858.2 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1860.0 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1813.1 seconds.
+Total execution time: 1860.5 seconds.
+Running MCMC with 4 parallel chains...
+
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 4 Iteration:    1 / 2000 [  0%]  (Warmup) 
+Chain 3 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 3 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 4 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 2 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1000 / 2000 [ 50%]  (Warmup) 
+Chain 1 Iteration: 1001 / 2000 [ 50%]  (Sampling) 
+Chain 4 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 4 finished in 1570.6 seconds.
+Chain 3 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 3 finished in 1578.9 seconds.
+Chain 2 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 2 finished in 1814.2 seconds.
+Chain 1 Iteration: 2000 / 2000 [100%]  (Sampling) 
+Chain 1 finished in 1829.1 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 1698.2 seconds.
+Total execution time: 1829.5 seconds.</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>bay_predictions</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>bay_predictions</span><span class='op'>)</span>
+<span class='fu'>write_csv</span><span class='op'>(</span><span class='va'>bay_predictions</span>, file <span class='op'>=</span> <span class='st'>"../out/results/bay-dump.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ols_predictions</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"../out/results/ols-dump.csv"</span><span class='op'>)</span>
+<span class='va'>bay_predictions</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"../out/results/bay-dump.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="table-2">6. Table 2</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab2.A</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span>
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/mae.html'>mae</a></span><span class='op'>(</span><span class='va'>bay_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rmse.html'>rmse</a></span><span class='op'>(</span><span class='va'>bay_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rsq.html'>rsq</a></span><span class='op'>(</span><span class='va'>bay_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+<span class='op'>)</span> |&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>case <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bayes (Full sample)"</span>, <span class='st'>"Bayes (Full sample)"</span>, <span class='st'>"Bayes (Full sample)"</span><span class='op'>)</span>,
+         .estimate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>.estimate</span>, <span class='fl'>4</span><span class='op'>)</span>
+         <span class='op'>)</span> |&gt; 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>.estimator</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>pivot_wider</span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>.metric</span>, values_from <span class='op'>=</span> <span class='va'>.estimate</span><span class='op'>)</span>
+<span class='va'>tab2.A</span><span class='op'>$</span><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bay_predictions</span><span class='op'>)</span>
+<span class='fu'>kable</span><span class='op'>(</span><span class='va'>tab2.A</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">case</th>
+<th style="text-align: right;">mae</th>
+<th style="text-align: right;">rmse</th>
+<th style="text-align: right;">rsq</th>
+<th style="text-align: right;">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bayes (Full sample)</td>
+<td style="text-align: right;">0.0575</td>
+<td style="text-align: right;">0.0768</td>
+<td style="text-align: right;">0.0339</td>
+<td style="text-align: right;">67360</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>both_predictions</span> <span class='op'>&lt;-</span> 
+  <span class='va'>bay_predictions</span> |&gt; 
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>inner_join</span><span class='op'>(</span><span class='fu'>select</span><span class='op'>(</span><span class='va'>ols_predictions</span>, <span class='va'>ticker</span>, <span class='va'>ea_date</span>, <span class='va'>ols_pred</span><span class='op'>)</span>, 
+             by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ticker"</span>, <span class='st'>"ea_date"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tab2.B</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span>
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/mae.html'>mae</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/mae.html'>mae</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>ols_pred</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rmse.html'>rmse</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rmse.html'>rmse</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>ols_pred</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rsq.html'>rsq</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>posterior_mean</span><span class='op'>)</span>,
+  <span class='fu'>yardstick</span><span class='fu'>::</span><span class='fu'><a href='https://yardstick.tidymodels.org/reference/rsq.html'>rsq</a></span><span class='op'>(</span><span class='va'>both_predictions</span>, truth <span class='op'>=</span> <span class='va'>ret_dm</span>, estimate <span class='op'>=</span> <span class='va'>ols_pred</span><span class='op'>)</span>
+<span class='op'>)</span>|&gt; 
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    case <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bayes (OLS sample)"</span>, <span class='st'>"OLS"</span>, <span class='st'>"Bayes (OLS sample)"</span>, <span class='st'>"OLS"</span>, <span class='st'>"Bayes (OLS sample)"</span>, <span class='st'>"OLS"</span><span class='op'>)</span>,
+    .estimate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>.estimate</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>.estimator</span><span class='op'>)</span> |&gt; 
+  <span class='fu'>pivot_wider</span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>.metric</span>, values_from <span class='op'>=</span> <span class='va'>.estimate</span><span class='op'>)</span>
+<span class='va'>tab2.B</span><span class='op'>$</span><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>both_predictions</span><span class='op'>)</span>
+<span class='fu'>kable</span><span class='op'>(</span><span class='va'>tab2.B</span><span class='op'>)</span>
+</code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">case</th>
+<th style="text-align: right;">mae</th>
+<th style="text-align: right;">rmse</th>
+<th style="text-align: right;">rsq</th>
+<th style="text-align: right;">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bayes (OLS sample)</td>
+<td style="text-align: right;">0.0575</td>
+<td style="text-align: right;">0.0767</td>
+<td style="text-align: right;">0.0339</td>
+<td style="text-align: right;">67031</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OLS</td>
+<td style="text-align: right;">0.0669</td>
+<td style="text-align: right;">0.4048</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">67031</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>tab2.A</span>, <span class='va'>tab2.B</span><span class='op'>)</span> |&gt; <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"../out/results/tab2.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

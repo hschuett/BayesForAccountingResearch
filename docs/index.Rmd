@@ -32,7 +32,7 @@ The site is organized as follows. The first part provides the annotated code to 
 
 - [Section 3: ERC Prior Check](ERC-example-prior.html) contains the code to replicate the prior simulation check from the ERC example in Section 3.
 
-- [Section 3: ERC Prior Check](ERC-example-prior.html) contains the code to replicate the 10-fold cross validation test from the ERC example in Section 3.
+- [Section 3: ERC Crossval Test](ERC-example-cv.html) contains the code to replicate the 10-fold cross validation test from the ERC example in Section 3.
 
 ## Additional material
 

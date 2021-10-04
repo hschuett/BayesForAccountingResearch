@@ -1,0 +1,503 @@
+---
+title: "An example of Bayesian modelling: Firm-level ERC coefficients"
+description: |
+  Part one of the code for Section 3: Heterogeneity in earnings response coefficients
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r loadstuff}
+library(tidyverse)
+library(cmdstanr)
+library(posterior)
+library(patchwork)
+source("00-utils.R")
+kable <- knitr::kable
+theme_set(theme_prodgray())
+
+ols_erc <- function(.d){
+  fit <- lm(ret_dm ~ earn_surp_dm, data = .d)
+  fit_results <- broom::tidy(fit)
+}
+
+ols_pred <- function(.d){
+  fit <- lm(ret_dm ~ earn_surp_dm, data = .d)
+  fit_pred <- broom::augment(fit)
+}
+```
+
+## 1. Introduction and preliminaries
+
+This markdown file contains all the code necessary to replicate the main figures, models and results used in Section 3: *Heterogeneity in earnings response coefficients* of the Paper *What Can Bayesian Inference Do for Accounting Research?*. The prior predictive checks and the cross-validation test are on separate pages. All the code can also be found in the [repo](https://github.com/hschuett/BayesForAccountingResearch). It contains `00-utils.R` which contains a few helper functions for graphs and tables.
+
+**Note:** I used the newer [cmdstanr](https://mc-stan.org/cmdstanr/) package instead of the older [rstan](https://mc-stan.org/rstan/) package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the [pystan](https://pystan.readthedocs.io/en/latest/) package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python. Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr [doc](https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html) for installation instructions
+
+## 2. Loading the data
+
+### 2.1. Final transformations
+
+The data used here is generated via the `02-create-ERC-sample.R` script found in the [repo](https://github.com/hschuett/BayesForAccountingResearch). Here, we just load it and do some last minute transformations like de-meaning, etc.
+
+```{r datas}
+ea_data <- arrow::read_parquet("../data/ea-event-returns.pqt") 
+ea_data <- 
+  ea_data |> 
+  mutate(
+    ret_dm = AbEvRet - mean(AbEvRet),
+    earn_surp_dm = earn_surp - mean(earn_surp)
+    )
+head(ea_data) |> 
+  kable()
+```
+
+```{r datas2}
+ea_data_time <- 
+  ea_data |> 
+  mutate(EAYear = lubridate::year(ea_date)) |> 
+  mutate(year_id = as.integer(EAYear - min(EAYear) + 1))
+```
+
+### 2.2. Tab. 1, Panel A.
+
+```{r tab1a}
+desc_tabl <- rbind(
+  desc_row(ea_data$AbEvRet, "Ret"),
+  desc_row(ea_data$earn_surp, "X")
+)
+desc_tabl$N <- nrow(ea_data)
+desc_tabl$Firms <- max(ea_data$firm_id)
+
+write_csv(desc_tabl, "../out/results/tab1-panA.csv")
+
+desc_tabl|> 
+  mutate(across(where(is.numeric), round, 4)) |> 
+  kable()
+```
+
+## 3. OLS estimates
+
+### 3.1 Pooled OLS estimates
+
+Just to have a frame of reference, here is the pooled ERC estimate
+
+```{r pooled}
+pooled <- ols_erc(ea_data)
+kable(pooled)
+```
+
+### 3.2 Firm-level OLS estimates
+
+Next, we nest the data by firm (ticker) and fit OLS ERC models by firm
+
+```{r}
+nested_data <-
+  ea_data %>%
+  add_count(ticker, name = "n_EAs") %>%
+  nest(data = -c(ticker, n_EAs, firm_id)) %>%
+  mutate(ols_result = map(.x = data, .f = ~ols_erc(.)))
+
+summary(nested_data$n_EAs)
+```
+
+```{r olsfitting}
+ols_results <-
+  nested_data %>%
+  select(ticker, n_EAs, ols_result) %>%
+  unnest(ols_result) %>%
+  filter(term == "earn_surp_dm")
+
+ols_intercept <-
+  nested_data %>%
+  select(ticker, n_EAs, ols_result) %>%
+  unnest(ols_result) %>%
+  filter(term == "(Intercept)")
+
+write_csv(ols_results, "../out/results/ols_bi.csv")
+```
+
+This is the distribution of firm-level ERC estimates
+
+```{r}
+summary(ols_results$estimate)
+```
+
+### 3.3 By-year OLS estimates
+
+This is for the comparison in Figure 5.
+
+```{r byyearolsfit}
+byyear_data <-
+  ea_data_time %>%
+  nest(data = -c(year_id, EAYear)) %>%
+  mutate(ols_result = map(.x = data, .f = ~ols_erc(.)))
+```
+
+```{r}
+byyear_results <-
+  byyear_data %>%
+  select(-data) %>%
+  unnest(ols_result) %>%
+  filter(term == "earn_surp_dm")
+```
+
+## 4. Bayesian model with weakly informative priors
+
+### 4.1 Model fitting
+
+To fit a Bayesian model I use [Stan](https://mc-stan.org/), or, more precisely, its R bindings in cmdstanr. To fit a Bayesian model, we need to:
+
+1.  Write the corresponding model using the Stan language
+2.  Compile the code into a Stan model executable (an .exe file)
+3.  Make a list of data to feed into the .exe file
+4.  Let the model run and generate MCMC chains (or whatever algorithm is specified)
+
+The model itself is coded in the [Stan language](https://mc-stan.org/). There are many excellent tutorials on Stan available online. So I won't waste space explaining it here. For various reasons (e.g., debugging) it is customary to put the model code in a separate .stan file. All the model files can be found in the /Stan/ folder of the [repo](https://github.com/hschuett/BayesForAccountingResearch).
+
+```{r showbayes1}
+cat(read_lines("../Stan/erc-wkinfo-priors.stan"), sep = "\n")
+```
+
+<aside>
+
+The model code in Stan language
+
+</aside>
+
+Next, we compile the model to an .exe file
+
+```{r compbayes1}
+model_wkinfo_priors <- cmdstan_model("../Stan/erc-wkinfo-priors.stan")
+```
+
+Now, we prepare the list of data to feed into the model.
+
+```{r}
+input_data <- list(
+  N = nrow(ea_data),
+  J = max(ea_data$firm_id),
+  K = 2,
+  GroupID = ea_data$firm_id,
+  y = ea_data$AbEvRet,
+  x = as.matrix(data.frame(int = 1, esurp = ea_data$earn_surp))
+)
+```
+
+<aside>
+
+Note how the list matches the names of the variables declared in the model's data block
+
+</aside>
+
+We run the model
+
+**Beware, this fit can take a long time**
+
+```{r fitbayes1}
+fit_wkinfo_priors <- model_wkinfo_priors$sample(
+  data = input_data,
+  iter_sampling = 1000,
+  iter_warmup = 1000,
+  chains = 4,
+  parallel_chains = 4,
+  seed = 1234,
+  refresh = 1000
+)
+```
+
+### 4.2 Summary of the posterior for selected parameters
+
+Here is the summary of the resulting posterior distribution of the model parameters
+
+```{r}
+fit_wkinfo_priors$summary(variables = c("mu_b", "sigma", "tau", "L_Omega[2,1]")) |> 
+  mutate(across(where(is.numeric), round, 3)) |> 
+  kable()
+```
+
+```{r}
+tab1.D <- fit_wkinfo_priors$summary(
+  variables = c("mu_b", "sigma", "tau", "L_Omega[2,1]"), 
+  mean, sd, ~quantile2(., probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+)
+write_csv(tab1.D, "../out/results/tab1-panD.csv")
+```
+
+### 4.3 Comparing Bayesian ERC estimates to OLS estimates
+
+To do this we need to extract the posterior draws for the ERC coefficients
+
+```{r}
+posterior_b <- summarise_draws(fit_wkinfo_priors$draws(c("b")), 
+                               posterior_mean = mean, 
+                               posterior_sd = sd,
+                               ~quantile2(., probs = c(0.05, 0.25, 0.75, 0.95))
+                               )
+write_csv(posterior_b, "../out/results/fit_wkinfo_bi.csv")
+
+posterior_erc <- 
+  posterior_b |> 
+  filter(str_detect(variable, ",2\\]"))
+```
+
+Code for Tab. 1, Panel C
+
+```{r tab1c}
+tab1.C <- 
+  rbind(
+    desc_row(posterior_erc$posterior_mean, "post_mean"),
+    desc_row(with(posterior_erc, q95 - q5), "post90_width"),
+    desc_row(with(ols_results, estimate[is.na(estimate) == FALSE]), "OLS"),
+    desc_row(with(ols_results, p.value[is.na(p.value) == FALSE]), "OLS pval")
+  )
+write_csv(tab1.C, "../out/results/tab1-panC.csv")
+tab1.C |> 
+  mutate(across(where(is.numeric), round, 3))
+```
+
+### 4.4 Figure 4
+
+```{r}
+graph_data <-
+  ols_results %>%
+  mutate(
+    post_mean = posterior_erc$posterior_mean,
+    post_sd = posterior_erc$posterior_sd
+  )
+```
+
+```{r fig4}
+y_range <- c(-100, 100)
+
+f4.panA <-
+  graph_data %>%
+  ggplot(aes(x = n_EAs, y = estimate)) +
+  geom_point(alpha = 0.1, size = 1) + # ,  width = 0.25) +
+  geom_hline(yintercept = c(0)) +
+  geom_hline(yintercept = mean(graph_data$estimate, na.rm = TRUE), linetype = "dashed") +
+  labs(
+    y = "OLS estimate",
+    x = NULL, # "Nr of Quarters in firm's time series",
+    subtitle = "OLS by firm"
+  ) +
+  coord_cartesian(ylim = y_range)
+
+f4.panB <-
+  graph_data %>%
+  ggplot(aes(x = n_EAs, y = post_mean)) +
+  geom_point(alpha = 0.1, size = 1) + # ,  width = 0.25) +
+  geom_hline(yintercept = c(0)) +
+  geom_hline(yintercept = mean(graph_data$post_mean), linetype = "dashed") +
+  labs(
+    y = "Posterior mean",
+    x = NULL,
+    subtitle = "Bayesian multi-level model"
+  ) +
+  coord_cartesian(ylim = y_range)
+  
+
+f4.panC <-
+  graph_data %>%
+  ggplot(aes(x = n_EAs)) +
+  geom_bar(width = 0.5) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  labs(
+    x = "Time series length",
+    y = "N. firms"
+  )
+
+fig4 <- 
+  f4.panA + f4.panB + f4.panC + f4.panC + 
+  plot_layout(ncol = 2, heights = c(2, 0.5)) +
+  plot_annotation(tag_levels = list(c("A", "B", NULL, NULL))) &
+  theme(legend.position = "none")
+fig4
+```
+
+Saving figure
+
+```{r}
+save_fig(fig4, figname = "fig4", w = 6.2, h = 3.4)
+```
+
+## 5. Bayesian model with AR1 time trend
+
+### 5.1 Model fitting
+
+```{r showbayes2}
+cat(read_lines("../Stan/erc-wkinfo-priors-time-pers.stan"), sep = "\n")
+```
+
+```{r}
+input_data2 <- list(
+  N = nrow(ea_data_time),
+  J = max(ea_data_time$firm_id),
+  K = 2,
+  M = max(ea_data_time$year_id),
+  TimeID = ea_data_time$year_id, 
+  GroupID = ea_data_time$firm_id,
+  y = ea_data$AbEvRet,
+  x = ea_data$earn_surp
+)
+```
+
+```{r compbayes2}
+model_wkinfo_timepers <- cmdstan_model("../Stan/erc-wkinfo-priors-time-pers.stan")
+```
+
+**Again beware, this fit can take a long time**
+
+```{r fitbayes2}
+fit_wkinfo_timepers <- model_wkinfo_timepers$sample(
+  data = input_data2,
+  iter_sampling = 1000,
+  iter_warmup = 1000,
+  chains = 4,
+  parallel_chains = 4,
+  seed = 1234,
+  refresh = 1000
+)
+```
+
+### 5.2 Summary of the posterior for selected parameters
+
+Here is the summary of the resulting posterior distribution of the model parameters
+
+```{r}
+fit_wkinfo_timepers$summary(variables = c("mu_b[1]", "sigma", "tau", "b_t", 
+                                          "rho", "sig_t", "L_Omega[2,1]")) |> 
+  mutate(across(where(is.numeric), round, 3)) |> 
+  kable()
+```
+
+Saving output for Panel E of Tab. 1
+
+```{r tab1e}
+tab1.E <- fit_wkinfo_timepers$summary(
+  variables = c("mu_b[1]", "sigma", "tau", "b_t", "rho", "sig_t", "L_Omega[2,1]"), 
+  mean, sd, ~quantile2(., probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+)
+write_csv(tab1.E, "../out/results/tab1-panE.csv")
+```
+
+### 5.3 Comparing Bayesian ERC estimates to OLS estimates
+
+```{r}
+posterior_b2 <- summarise_draws(fit_wkinfo_timepers$draws(c("b_i")), 
+                               posterior_mean = mean, 
+                               posterior_sd = sd,
+                               ~quantile2(., probs = c(0.05, 0.25, 0.75, 0.95))
+                               )
+posterior_erc2 <- 
+  posterior_b2 |> 
+  filter(str_detect(variable, ",2\\]"))
+
+posterior_bt2 <- summarise_draws(fit_wkinfo_timepers$draws(c("b_t")), 
+                                 posterior_mean = mean, 
+                                 posterior_sd = sd,
+                                 ~quantile2(., probs = c(0.05, 0.25, 0.75, 0.95))
+                                 )
+
+write_csv(posterior_bt2, "../out/results/fit_wkinfo_time_bt.csv")
+write_csv(posterior_b2, "../out/results/fit_wkinfo_time_bi.csv")
+```
+
+```{r}
+fit_comparison2 <- 
+  rbind(
+    desc_row(posterior_erc2$posterior_mean, "post_mean"),
+    desc_row(with(posterior_erc2, q95 - q5), "post90_width"),
+    desc_row(with(ols_results, estimate[is.na(estimate) == FALSE]), "OLS")
+  )
+write_csv(fit_comparison2, "../out/results/fit_comp-AR1.csv")
+
+fit_comparison2 |> 
+  mutate(across(where(is.numeric), round, 3)) |> 
+  kable()
+```
+
+Compare this to the numbers from the model without time trend
+
+```{r}
+tab1.C |>
+  mutate(across(where(is.numeric), round, 3)) |> 
+  kable()
+```
+
+### 5.4 Fig. 5
+
+```{r fig5}
+posterior_bt2 |> 
+  mutate(Year = 1:nrow(posterior_bt2) + 1989) |> 
+  left_join(select(byyear_results, Year = EAYear, OLS = estimate),
+            by = c("Year")) |>  
+  ggplot(aes(x = Year)) + 
+  geom_ribbon(aes(ymin = q5, ymax = q95), alpha = 0.2) + 
+  geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.2) + 
+  geom_line(aes(y = posterior_mean)) + 
+  geom_line(aes(y = OLS), linetype = 2) +
+  scale_x_continuous(breaks = seq(1990, 2020, 5)) + 
+  scale_y_continuous(limits = c(0, 8), expand = expansion(mult = c(0, 0))) + 
+  labs(subtitle = expression("Yearly trend component"~a1[t]~"in ERCs"),
+       y = "Mean, 50%, and 90% interval",
+       x = "Calendar year of the announcement")
+```
+
+```{r}
+f5.panA <-
+  posterior_bt2 |> 
+  mutate(Year = 1:nrow(posterior_bt2) + 1989) |> 
+  left_join(select(byyear_results, Year = EAYear, OLS = estimate),
+            by = c("Year")) |>  
+  ggplot(aes(x = Year)) + 
+  geom_ribbon(aes(ymin = q5, ymax = q95), alpha = 0.2) + 
+  geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.2) + 
+  geom_line(aes(y = posterior_mean)) + 
+  geom_line(aes(y = OLS), linetype = 2, color = "grey40") +
+  scale_x_continuous(breaks = seq(1990, 2020, 5)) + 
+  scale_y_continuous(limits = c(0, 8), expand = expansion(mult = c(0, 0))) + 
+  labs(subtitle = expression("Yearly trend component"~a[1*","*t]~"in ERCs"),
+       y = "Mean, 50%, and 90% interval",
+       x = "Calendar year of the announcement") + 
+  annotate("text", label = "OLS estimates", x = 2015.5, y = 3.3, size = 3, color = "grey40") + 
+  annotate("text", label = "Bayes posterior", x = 2004, y = 7.5, size = 3) 
+
+f5.panB <-
+  posterior_erc2 |> 
+  mutate(rank = rank(posterior_mean)) |> 
+  ggplot(aes(x = rank, y = posterior_mean)) + 
+  geom_hline(yintercept = 0) +
+  geom_linerange(aes(ymin = q5, ymax = q95), alpha = 0.1) +
+  geom_point(size = 0.5) + 
+  scale_x_continuous(expand = expansion(mult = c(0.01, 0.01))) +
+  labs(y = "Mean and 90% interval",
+       x = expression(a[1*","*i]~"rank"),
+       subtitle = expression("Firm-individual ERC component"~a[1*","*i]~"from smallest to largest"))
+
+fig5 <- 
+  f5.panA / f5.panB + 
+  plot_annotation(tag_levels = "A") &
+  theme(legend.position = "none")
+fig5
+```
+
+Saving figure
+
+```{r}
+save_fig(fig5, figname = "fig5", w = 6.2, h = 5)
+```

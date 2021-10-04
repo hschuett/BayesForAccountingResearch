@@ -1,0 +1,121 @@
+---
+title: "Prior Predictive Check for the Multi-level ERC Model"
+description: |
+  Part two of the code for Section 3: Heterogeneity in earnings response coefficients
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r loadstuff}
+library(tidyverse)
+library(cmdstanr)
+library(posterior)
+kable <- knitr::kable
+source("00-utils.R")
+```
+
+## 1. Introduction and preliminaries
+
+This markdown file contains all the code necessary to replicate the prior predictive check in Section 3: *Heterogeneity in earnings response coefficients* of the Paper *What Can Bayesian Inference Do for Accounting Research?*. All the code can also be found in the [repo](https://github.com/hschuett/BayesForAccountingResearch). It contains `00-utils.R` which contains a few helper functions for graphs and tables.
+
+**Note:** I used the newer [cmdstanr](https://mc-stan.org/cmdstanr/) package instead of the older [rstan](https://mc-stan.org/rstan/) package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the [pystan](https://pystan.readthedocs.io/en/latest/) package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python. Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr [doc](https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html) for installation instructions
+
+## 2. Loading the data
+
+Same as in the main part of the ERC example. This is just de-meaning the y- and x-variable.
+
+```{r datas}
+ea_data <- arrow::read_parquet("../data/ea-event-returns.pqt") 
+ea_data <- 
+  ea_data |> 
+  mutate(
+    ret_dm = AbEvRet - mean(AbEvRet),
+    earn_surp_dm = earn_surp - mean(earn_surp)
+    )
+head(ea_data)
+```
+
+
+## 3. Prior predictive check
+
+Before fitting the actual model, I want to check whether the chosen priors are sort of sensible. To this end I wrote a Stan model that does not actually fit the model but simulates data from the chosen priors. It might be easier to skip this for now, continue to the actual model fitting part and then come back to review the prior predictive checking afterwards.
+
+```{r showcode}
+cat(read_lines("../Stan/erc-wkinfo-priorpred.stan"), sep = "\n")
+```
+
+<aside>
+
+In contrast to normal models, this one has no model block. Just generated quantities
+
+</aside>
+
+
+```{r runpriped}
+model_priorpred <- cmdstan_model("../Stan/erc-wkinfo-priorpred.stan")
+prio_check <- model_priorpred$sample(
+  data = list(
+    N = nrow(ea_data),
+    J = max(ea_data$firm_id),
+    K = 2,
+    GroupID = ea_data$firm_id,
+    x = as.matrix(data.frame(int = 1, esurp = ea_data$earn_surp))
+  ),
+  iter_sampling = 1000,
+  iter_warmup = 0,
+  seed = 1234,
+  refresh = 1000,
+  fixed_param = TRUE  
+)
+```
+
+<aside>
+
+The `fixed_param = TRUE` option is necessary to invoke a different sampler. From the docs: "The fixed parameter sampler generates a new sample without changing the current state of the Markov chain; only generated quantities may change"
+
+</aside>
+
+The next piece collects the draws for key parameters and computes the descriptive stats for Panel B of Table 1
+
+```{r getdraws}
+mu_a1_prip <- prio_check$draws(variables= c("mu_b[2]"), format = "matrix")
+sig_a1_prip <- prio_check$draws(variables= c("tau[2]"), format = "matrix")
+a_prip <- prio_check$draws(variables= c("b"), format = "matrix")
+a1_prip <- as.vector(a_prip[, grepl(",2\\]", colnames(a_prip))])
+y_prip <- 
+  prio_check$draws(variables= c("y_pred"), format = "list") %>% 
+  unlist()
+```
+
+
+```{r tab1b}
+tab1.B <- rbind(
+  desc_row(mu_a1_prip, "mu_a1_prip"),
+  desc_row(sig_a1_prip, "sig_a1_prip"),
+  desc_row(a1_prip, "a_1_prip"),
+  desc_row((y_prip + mean(ea_data$AbEvRet)), "Ret_prip")
+  )
+
+write_csv(tab1.B, "../out/results/tab1-panB.csv")
+```
+
+```{r showtab1b}
+kable(tab1.B)
+```
+

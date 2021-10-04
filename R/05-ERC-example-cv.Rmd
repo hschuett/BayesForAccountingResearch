@@ -1,0 +1,235 @@
+---
+title: "10-fold cross-validation predictions of ERCs"
+description: |
+  Part three of the code for Section 3: Heterogeneity in earnings response coefficients
+author:
+  - name: Harm Schuett
+    url: https://hschuett.github.io/
+    affiliation: Tilburg University
+    affiliation_url: https://www.tilburguniversity.edu
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+```{r}
+library(tidyverse)
+library(cmdstanr)
+library(posterior)
+library(patchwork)
+library(rsample)
+source("00-utils.R")
+kable <- knitr::kable
+theme_set(theme_prodgray())
+```
+
+
+
+## 1. Introduction and preliminaries
+
+This markdown file contains all the code necessary to replicate the cross-validation prediction test from Section 3: *Heterogeneity in earnings response coefficients* of the Paper *What Can Bayesian Inference Do for Accounting Research?*. All the code can also be found in the [repo](https://github.com/hschuett/BayesForAccountingResearch). It contains `00-utils.R` which contains a few helper functions for graphs and tables.
+
+**Note:** I used the newer [cmdstanr](https://mc-stan.org/cmdstanr/) package instead of the older [rstan](https://mc-stan.org/rstan/) package because it likely is the future of the R based Stan ecosystem. I also really like its api, which is very close to the api of the [pystan](https://pystan.readthedocs.io/en/latest/) package. An additional advantage (I hope) is thus that most model fitting code should be more or less directly transferable to pystan for those that want to work in python. Installing cmdstanr used to be tricky at times because one needs a working c++ toolchain. But it is much smoother now. Please see the cmdstanr [doc](https://mc-stan.org/cmdstanr/reference/cmdstanr-package.html) for installation instructions
+
+
+
+## 2. Loading the data
+
+The data used here is generated via the `02-create-ERC-sample.R` script found in the [repo](https://github.com/hschuett/BayesForAccountingResearch). Here, we just load it and do some last minute transformations like de-meaning, etc.
+
+```{r datas}
+ea_data <- arrow::read_parquet("../data/ea-event-returns.pqt") 
+ea_data <- 
+  ea_data |> 
+  mutate(
+    ret_dm = AbEvRet - mean(AbEvRet),
+    earn_surp_dm = earn_surp - mean(earn_surp)
+    )
+head(ea_data)
+```
+
+
+
+## 3. Creating 10-fold CV datasets
+
+This creates the 10 random splits of the sample
+
+```{r}
+set.seed(3597)
+folds <- vfold_cv(ea_data, v = 10)
+glimpse(folds)
+```
+
+
+
+## 4. OLS OOS predictions
+
+Next, loop through the 10 splits and train the OLS model on each train split and compute predictions for holdout part.
+
+```{r}
+ols_fit <- function(.d){
+  fit <- lm(ret_dm ~ earn_surp_dm, data = .d)
+}
+
+ols_pred <- function(.fit, .nd){
+  # Note there are some singularity warnings in here. Mainly due to insufficient n.obs
+  suppressWarnings(
+  fit_pred <- broom::augment(.fit, newdata = .nd)
+  )
+}
+
+ols_predictions <- vector("list", length = 10)
+for (i in 1:10) {
+  train_set <- analysis(folds$splits[[i]])
+  holdout_set <- assessment(folds$splits[[i]])
+  
+  ea_data_train <- 
+    train_set |>
+    nest(data = -c(ticker, firm_id)) 
+  
+  ea_data_test <- 
+    holdout_set |>
+    nest(data = -c(ticker, firm_id)) |> 
+    rename(test_data = data)
+  
+  data_slice <- 
+    ea_data_train |> 
+    inner_join(ea_data_test, by = c("ticker", "firm_id"))
+  
+  ols_predictions[[i]] <- 
+    data_slice |>
+    mutate(ols_fit = map(.x = data, .f = ~ols_fit(.))) |> 
+    mutate(ols_pred = map2(.x = ols_fit, .y = test_data, .f = ols_pred)) |> 
+    select(ticker, firm_id, ols_pred) |> 
+    unnest(cols = c(ols_pred)) |> 
+    select(ticker, firm_id, ea_date, ret_dm, ols_pred = .fitted)
+}
+ols_predictions <- bind_rows(ols_predictions)
+write_csv(ols_predictions, file = "../out/results/ols-dump.csv")
+```
+
+
+
+## 5. Bayesian OOS prediction
+
+Do the same for the Bayes model. Loop through the 10 splits and train the Bayes model on each train split and compute predictions for holdout part.
+
+```{r}
+cat(read_lines("../Stan/erc-wkinfo-priors-oos.stan"), sep = "\n")
+```
+
+```{r}
+model_wkinfo_priors <- cmdstan_model("../Stan/erc-wkinfo-priors-oos.stan")
+```
+
+**Beware, the following code chunk can take a long time**
+
+```{r}
+bay_predictions <- vector("list", length = 10)
+for (i in 1:10){
+  train_set <- analysis(folds$splits[[i]])
+  holdout_set <- assessment(folds$splits[[i]])
+  
+  input_data <- list(
+    N = nrow(train_set),
+    J = max(ea_data$firm_id),  # important! Needs to refer to full sample
+    K = 2,
+    GroupID = train_set$firm_id,
+    y = train_set$AbEvRet,
+    x = as.matrix(data.frame(int = 1, esurp = train_set$earn_surp)),
+    
+    N_test = nrow(holdout_set),
+    x_test = as.matrix(data.frame(int = 1, esurp = holdout_set$earn_surp)),
+    GroupID_test = holdout_set$firm_id
+  )
+  
+  fit_wkinfo_priors <- model_wkinfo_priors$sample(
+    data = input_data,
+    iter_sampling = 1000,
+    iter_warmup = 1000,
+    chains = 4,
+    parallel_chains = 4,
+    seed = 1234,
+    refresh = 1000
+  )
+  
+  posterior_ypred <- summarise_draws(
+    fit_wkinfo_priors$draws(c("y_pred")), 
+      posterior_mean = mean,
+      posterior_median = median, 
+      posterior_sd = sd,
+      ~quantile2(., probs = c(0.05, 0.25, 0.75, 0.95))
+    )
+  
+   bay_predictions[[i]] <- 
+     cbind(select(holdout_set, ticker, firm_id, ea_date, ret_dm), 
+           posterior_ypred
+           )
+   
+   rm(posterior_ypred, train_set, holdout_set, input_data)
+}
+bay_predictions <- bind_rows(bay_predictions)
+write_csv(bay_predictions, file = "../out/results/bay-dump.csv")
+```
+
+```{r}
+ols_predictions <- read_csv("../out/results/ols-dump.csv")
+bay_predictions <- read_csv("../out/results/bay-dump.csv")
+```
+
+## 6. Table 2
+
+```{r}
+tab2.A <- bind_rows(
+  yardstick::mae(bay_predictions, truth = ret_dm, estimate = posterior_mean),
+  yardstick::rmse(bay_predictions, truth = ret_dm, estimate = posterior_mean),
+  yardstick::rsq(bay_predictions, truth = ret_dm, estimate = posterior_mean),
+) |> 
+  mutate(case = c("Bayes (Full sample)", "Bayes (Full sample)", "Bayes (Full sample)"),
+         .estimate = round(.estimate, 4)
+         ) |> 
+  select(-.estimator) |> 
+  pivot_wider(names_from = .metric, values_from = .estimate)
+tab2.A$N <- nrow(bay_predictions)
+kable(tab2.A)
+```
+
+```{r}
+both_predictions <- 
+  bay_predictions |> 
+  ungroup() |> 
+  inner_join(select(ols_predictions, ticker, ea_date, ols_pred), 
+             by = c("ticker", "ea_date"))
+```
+
+```{r}
+tab2.B <- bind_rows(
+  yardstick::mae(both_predictions, truth = ret_dm, estimate = posterior_mean),
+  yardstick::mae(both_predictions, truth = ret_dm, estimate = ols_pred),
+  yardstick::rmse(both_predictions, truth = ret_dm, estimate = posterior_mean),
+  yardstick::rmse(both_predictions, truth = ret_dm, estimate = ols_pred),
+  yardstick::rsq(both_predictions, truth = ret_dm, estimate = posterior_mean),
+  yardstick::rsq(both_predictions, truth = ret_dm, estimate = ols_pred)
+)|> 
+  mutate(
+    case = c("Bayes (OLS sample)", "OLS", "Bayes (OLS sample)", "OLS", "Bayes (OLS sample)", "OLS"),
+    .estimate = round(.estimate, 4)) |> 
+  select(-.estimator) |> 
+  pivot_wider(names_from = .metric, values_from = .estimate)
+tab2.B$N <- nrow(both_predictions)
+kable(tab2.B)
+```
+
+```{r}
+bind_rows(tab2.A, tab2.B) |> write_csv("../out/results/tab2.csv")
+```
